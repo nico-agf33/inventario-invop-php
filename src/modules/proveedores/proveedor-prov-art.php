@@ -5,7 +5,7 @@ $action = $_GET['action'] ?? 'prov-art';
 
 
 
-include __DIR__ . '/src/tabs/proveedores-tabs.php';
+include __DIR__ . '/../../tabs/proveedores-tabs.php';
 ?>
 
 <?php if ($action === 'prov-art'): ?>

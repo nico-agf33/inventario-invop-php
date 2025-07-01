@@ -3,7 +3,7 @@ use GuzzleHttp\Client;
 
 $action = $_GET['action'] ?? 'historico-est-prov';
 
-include __DIR__ . '/src/tabs/proveedores-tabs.php';
+include __DIR__ . '/../../tabs/proveedores-tabs.php';
 ?>
 
 <?php if ($action === 'historico-est-prov'): ?>

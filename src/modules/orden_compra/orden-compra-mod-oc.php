@@ -3,7 +3,7 @@ use GuzzleHttp\Client;
 
 $action = $_GET['action'] ?? 'mod-oc';
 
-include __DIR__ . '/src/tabs/orden-compra-tabs.php';
+include __DIR__ . '/../../tabs/orden-compra-tabs.php';
 ?>
 
 <?php if ($action === 'mod-oc'): ?>

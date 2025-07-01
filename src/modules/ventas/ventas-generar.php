@@ -3,7 +3,7 @@ use GuzzleHttp\Client;
 
 $action = $_GET['action'] ?? 'generar';
 
-include __DIR__ . '/src/tabs/ventas-tabs.php';
+include __DIR__ . '/../../tabs/ventas-tabs.php';
 ?>
 
 <?php if ($action === 'generar'): ?>
