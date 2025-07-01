@@ -6,133 +6,72 @@
     include __DIR__ . '/../../tabs/maestro-articulos-tabs.php';
     ?>
 
-    <style>
-    .modal-content select {
-    position: relative;
-    z-index: 1000;
-    }
-    </style>
-
     <?php if ($action === 'abm-art'): ?>
 
-    <div id="modalCrearArticulo" class="modal" style="display:none;">
-    <div class="modal-content" style="
-        max-width: 600px;
-        margin: 5% auto;
-        background-color: white;
-        padding: 20px;
-        position: relative;
-        border-radius: 8px;
-        overflow: visible;
-    ">
-        <span class="close" onclick="
-        document.getElementById('modalCrearArticulo').style.display='none';
-        document.getElementById('idArticulo').value = '';
-        document.querySelector('#modalCrearArticulo h3').textContent = 'Crear nuevo artículo';
-        const form = document.getElementById('formCrearArticulo');
-        form.querySelector('input[type=submit]').value = 'Guardar artículo';
-        form.reset();
-        document.getElementById('modeloInv').dispatchEvent(new Event('change'));
-        ">&times;</span>
-        <h3>Crear nuevo artículo</h3>
-        <form id="formCrearArticulo">
-            <input type="hidden" name="idArticulo" id="idArticulo">
-            <label>Nombre: <input type="text" name="nombreArticulo" required></label><br><br>
-            <label>Descripción: <input type="text" name="descripcion" required></label><br><br>
+    <div id="modalCrearArticulo" class="modal">
+        <div class="modal-content">
+            <span class="close" 
+                onclick="
+                document.getElementById('modalCrearArticulo').style.display='none';
+                document.getElementById('idArticulo').value = '';
+                document.querySelector('#modalCrearArticulo h3').textContent = 'Crear nuevo artículo';
+                const form = document.getElementById('formCrearArticulo');
+                form.querySelector('input[type=submit]').value = 'Guardar artículo';
+                form.reset();
+                document.getElementById('modeloInv').dispatchEvent(new Event('change'));
+                ">&times;</span>
+            <h3>Crear nuevo artículo</h3>
+            <form id="formCrearArticulo">
+                <input type="hidden" name="idArticulo" id="idArticulo">
+                <label>Nombre: <input type="text" name="nombreArticulo" required></label><br><br>
+                <label>Descripción: <input type="text" name="descripcion" required></label><br><br>
+                <label>Modelo Inventario:
+                    <select name="modeloInv" id="modeloInv" required></select>
+                </label><br><br>
+                <label>Categoría Artículo:
+                    <select name="categoriaArt" id="categoriaArt" required></select>
+                </label><br><br>
+                <label>Demanda Diaria:
+                    <input type="number" name="demandaDiaria" min="1" max="999999" required>
+                </label><br><br>
+                <label>Costo Almacén:
+                    <input type="number" name="costoAlmacen" step="0.01" min="0.01" max="999999" required>
+                </label><br><br>
+                <label>Tiempo Revisión:
+                    <input type="number" name="tiempoRevision" id="tiempoRevision" min="1" max="999999" disabled required>
+                </label><br><br>
+                <label>Stock máx.:
+                    <input type="number" name="stockMax" id="stockMax" min="1" max="999999" required>
+                </label><br><br>
+                    <input type="submit" value="Guardar artículo">
+                </form>
+            </div>
+        </div>
 
-            <label>Modelo Inventario:
-                <select name="modeloInv" id="modeloInv" required></select>
-            </label><br><br>
-
-            <label>Categoría Artículo:
-                <select name="categoriaArt" id="categoriaArt" required></select>
-            </label><br><br>
-
-            <label>Demanda Diaria:
-                <input type="number" name="demandaDiaria" min="1" max="999999" required>
-            </label><br><br>
-
-            <label>Costo Almacén:
-                <input type="number" name="costoAlmacen" step="0.01" min="0.01" max="999999" required>
-            </label><br><br>
-
-            <label>Tiempo Revisión:
-                <input type="number" name="tiempoRevision" id="tiempoRevision" min="1" max="999999" disabled required>
-            </label><br><br>
-
-            <label>Stock máx.:
-                <input type="number" name="stockMax" id="stockMax" min="1" max="999999" required>
-            </label><br><br>
-
-            <input type="submit" value="Guardar artículo">
-        </form>
+    <div id="modalProveedores" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModalProveedores()">&times;</span>  
+            <h3>Proveedores del Artículo</h3>
+            <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Dirección</th>
+                        <th>Precio Unitario</th>
+                        <th>Costo Pedido</th>
+                        <th>Stock máx.</th>
+                        <th>Tiempo Entrega (días)</th>
+                        <th>Predeterminado</th>
+                    </tr>
+                 </thead>
+                <tbody id="proveedoresBody">
+            </table>
+            </div>
+        </div>
     </div>
-    </div>
-
-    <div id="modalProveedores" class="modal" style="display:none;">
-    <div class="modal-content" style="
-        max-width: 90vw;
-        width: 600px;
-        background-color: white;
-        padding: 1em;
-        overflow-x: auto;
-        position: relative;
-        border-radius: 8px;
-    ">
-    <span class="close" onclick="cerrarModalProveedores()" style="
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        font-size: 24px;
-        cursor: pointer;
-        color: #aaa;
-    ">&times;</span>
-        
-        <h3 style="margin-top: 0; margin-bottom: 20px; font-family: Arial, sans-serif;">Proveedores del Artículo</h3>
-        
-        <table border="1" cellpadding="6" cellspacing="0" style="width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 14px;">
-        <thead style="background-color: #f2f2f2;">
-            <tr>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Teléfono</th>
-            <th>Dirección</th>
-            <th>Precio Unitario</th>
-            <th>Costo Pedido</th>
-            <th>Stock máx.</th>
-            <th>Tiempo Entrega (días)</th>
-            <th>Predeterminado</th>
-            </tr>
-        </thead>
-        <tbody id="proveedoresBody">
-        </tbody>
-        </table>
-    </div>
-    </div>
-
-    <style>
-    #modalCrearArticulo {
-        position: fixed !important;
-        top: 0; left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(0,0,0,0.4);
-        display: none;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-    }
-
-    #modalCrearArticulo .modal-content {
-        background-color: white;
-        padding: 20px;
-        border-radius: 8px;
-        max-width: 500px;
-        width: 95%;
-        position: relative;
-        z-index: 10000;
-    }
-    </style>
 
     <script>
     window.addEventListener('DOMContentLoaded', async () => {
@@ -387,24 +326,17 @@
         }
         ?>
 
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1em;">
-        <h2 style="margin: 0;">Lista de Artículos Activos</h2>
-        <div style="display: flex; gap: 1em;">
-            <button class="boton-accion" onclick="abrirModalCrearArticulo()" style="display: flex; align-items: center; gap: 0.5em; padding: 0.5em 1em;">
-                ＋<span style="font-size: 1.2em;"></span>
-                <span>Añadir artículo</span>
-            </button>
-
-            <button onclick="calcularParametros()" style="display: flex; align-items: center; gap: 0.5em; padding: 0.5em 1em;">
-                <span style="font-size: 1.2em;">&#128425;</span>
-                <span>Calcular parámetros de stock</span>
-            </button>
+    <div class="table-header">
+        <h2>Lista de Artículos Activos</h2>
+        <div class="acciones">
+            <button class="boton-accion" onclick="abrirModalCrearArticulo()">Añadir artículo</button>
+            <button class="boton-accion" onclick="calcularParametros()">Calcular parámetros de stock</button>
         </div>
     </div>
 
-    <div style="max-height: 60vh; overflow-y: auto; border: 1px solid #ccc;">
-        <table border="1" cellpadding="5" cellspacing="0" style="width: 100%; border-collapse: collapse;">
-            <thead style="background-color: #eee; position: sticky; top: 0; z-index: 1;">
+    <div class="table-wrapper">
+        <table>
+            <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>

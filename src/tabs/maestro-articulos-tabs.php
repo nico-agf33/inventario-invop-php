@@ -8,7 +8,7 @@ function activeTab($tabName, $currentAction) {
 $action = $_GET['action'] ?? 'abm-art';
 ?>
 
-<div style="margin-top: 1em; margin-bottom: 1em;">
+<div class="tabs-container">
   <a href="index.php?mod=articulos&action=abm-art" <?= activeTab('abm-art', $action) ?>>ABM Artículos</a> 
     <a href="index.php?mod=articulos&action=prov-pred" <?= activeTab('prov-pred', $action) ?>>Proveedor Predeterminado</a> 
     <a href="index.php?mod=articulos&action=lista-art-reponer" <?= activeTab('lista-art-reponer', $action) ?>>Lista de Articulos a Reponer</a> 

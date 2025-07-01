@@ -1,0 +1,167 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Users\lucim\AppData\Roaming\npm\node_modules\npm\bin\npm-cli.js
+1 info using npm@11.3.0
+2 info using node@v22.14.0
+3 silly config load:file:C:\Users\lucim\AppData\Roaming\npm\node_modules\npm\npmrc
+4 silly config load:file:C:\Users\lucim\Documents\GitHub\inventario-invop-php\.npmrc
+5 silly config load:file:C:\Users\lucim\.npmrc
+6 silly config load:file:C:\Users\lucim\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm install
+8 verbose argv "install"
+9 verbose logfile logs-max:10 dir:C:\Users\lucim\Documents\GitHub\inventario-invop-php\tmpnpm-cache\_logs\2025-07-01T20_01_41_634Z-
+10 verbose logfile C:\Users\lucim\Documents\GitHub\inventario-invop-php\tmpnpm-cache\_logs\2025-07-01T20_01_41_634Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+13 silly idealTree buildDeps
+14 silly reify moves {}
+15 silly audit bulk request {
+15 silly audit   '@types/sarif': [ '2.1.7' ],
+15 silly audit   'ansi-styles': [ '4.3.0' ],
+15 silly audit   async: [ '3.2.6' ],
+15 silly audit   'balanced-match': [ '1.0.2' ],
+15 silly audit   'brace-expansion': [ '2.0.2' ],
+15 silly audit   chalk: [ '4.1.2' ],
+15 silly audit   'color-convert': [ '2.0.1' ],
+15 silly audit   'color-name': [ '1.1.4' ],
+15 silly audit   commander: [ '11.1.0' ],
+15 silly audit   'fs-extra': [ '11.3.0' ],
+15 silly audit   'fs.realpath': [ '1.0.0' ],
+15 silly audit   glob: [ '8.1.0' ],
+15 silly audit   'graceful-fs': [ '4.2.11' ],
+15 silly audit   'has-flag': [ '4.0.0' ],
+15 silly audit   htmlhint: [ '1.6.3' ],
+15 silly audit   inflight: [ '1.0.6' ],
+15 silly audit   inherits: [ '2.0.4' ],
+15 silly audit   'is-extglob': [ '2.1.1' ],
+15 silly audit   'is-glob': [ '4.0.3' ],
+15 silly audit   jsonfile: [ '6.1.0' ],
+15 silly audit   minimatch: [ '5.1.6' ],
+15 silly audit   'node-sarif-builder': [ '3.2.0' ],
+15 silly audit   once: [ '1.4.0' ],
+15 silly audit   'strip-json-comments': [ '3.1.1' ],
+15 silly audit   'supports-color': [ '7.2.0' ],
+15 silly audit   universalify: [ '2.0.1' ],
+15 silly audit   wrappy: [ '1.0.2' ],
+15 silly audit   xml: [ '1.0.1' ]
+15 silly audit }
+16 http cache xml@https://registry.npmjs.org/xml/-/xml-1.0.1.tgz 1ms (cache hit)
+17 http cache wrappy@https://registry.npmjs.org/wrappy/-/wrappy-1.0.2.tgz 0ms (cache hit)
+18 http cache supports-color@https://registry.npmjs.org/supports-color/-/supports-color-7.2.0.tgz 0ms (cache hit)
+19 http cache universalify@https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz 0ms (cache hit)
+20 http cache strip-json-comments@https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-3.1.1.tgz 0ms (cache hit)
+21 http cache node-sarif-builder@https://registry.npmjs.org/node-sarif-builder/-/node-sarif-builder-3.2.0.tgz 0ms (cache hit)
+22 http cache once@https://registry.npmjs.org/once/-/once-1.4.0.tgz 0ms (cache hit)
+23 http cache is-extglob@https://registry.npmjs.org/is-extglob/-/is-extglob-2.1.1.tgz 0ms (cache hit)
+24 http cache jsonfile@https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz 0ms (cache hit)
+25 http cache minimatch@https://registry.npmjs.org/minimatch/-/minimatch-5.1.6.tgz 0ms (cache hit)
+26 http cache is-glob@https://registry.npmjs.org/is-glob/-/is-glob-4.0.3.tgz 0ms (cache hit)
+27 http cache inherits@https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz 0ms (cache hit)
+28 http cache inflight@https://registry.npmjs.org/inflight/-/inflight-1.0.6.tgz 0ms (cache hit)
+29 http cache htmlhint@https://registry.npmjs.org/htmlhint/-/htmlhint-1.6.3.tgz 0ms (cache hit)
+30 http cache graceful-fs@https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz 0ms (cache hit)
+31 http cache has-flag@https://registry.npmjs.org/has-flag/-/has-flag-4.0.0.tgz 0ms (cache hit)
+32 http cache glob@https://registry.npmjs.org/glob/-/glob-8.1.0.tgz 0ms (cache hit)
+33 http cache fs-extra@https://registry.npmjs.org/fs-extra/-/fs-extra-11.3.0.tgz 0ms (cache hit)
+34 http cache fs.realpath@https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz 0ms (cache hit)
+35 http cache commander@https://registry.npmjs.org/commander/-/commander-11.1.0.tgz 0ms (cache hit)
+36 http cache color-convert@https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz 0ms (cache hit)
+37 http cache brace-expansion@https://registry.npmjs.org/brace-expansion/-/brace-expansion-2.0.2.tgz 0ms (cache hit)
+38 http cache balanced-match@https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz 0ms (cache hit)
+39 http cache color-name@https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz 0ms (cache hit)
+40 http cache chalk@https://registry.npmjs.org/chalk/-/chalk-4.1.2.tgz 0ms (cache hit)
+41 http cache async@https://registry.npmjs.org/async/-/async-3.2.6.tgz 0ms (cache hit)
+42 silly tarball no local data for xml@https://registry.npmjs.org/xml/-/xml-1.0.1.tgz. Extracting by manifest.
+43 http cache ansi-styles@https://registry.npmjs.org/ansi-styles/-/ansi-styles-4.3.0.tgz 0ms (cache hit)
+44 http cache @types/sarif@https://registry.npmjs.org/@types/sarif/-/sarif-2.1.7.tgz 0ms (cache hit)
+45 silly tarball no local data for wrappy@https://registry.npmjs.org/wrappy/-/wrappy-1.0.2.tgz. Extracting by manifest.
+46 silly tarball no local data for supports-color@https://registry.npmjs.org/supports-color/-/supports-color-7.2.0.tgz. Extracting by manifest.
+47 silly tarball no local data for universalify@https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz. Extracting by manifest.
+48 silly tarball no local data for strip-json-comments@https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-3.1.1.tgz. Extracting by manifest.
+49 silly tarball no local data for node-sarif-builder@https://registry.npmjs.org/node-sarif-builder/-/node-sarif-builder-3.2.0.tgz. Extracting by manifest.
+50 silly tarball no local data for once@https://registry.npmjs.org/once/-/once-1.4.0.tgz. Extracting by manifest.
+51 silly tarball no local data for is-extglob@https://registry.npmjs.org/is-extglob/-/is-extglob-2.1.1.tgz. Extracting by manifest.
+52 silly tarball no local data for jsonfile@https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz. Extracting by manifest.
+53 silly tarball no local data for minimatch@https://registry.npmjs.org/minimatch/-/minimatch-5.1.6.tgz. Extracting by manifest.
+54 silly tarball no local data for is-glob@https://registry.npmjs.org/is-glob/-/is-glob-4.0.3.tgz. Extracting by manifest.
+55 silly tarball no local data for inherits@https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz. Extracting by manifest.
+56 silly tarball no local data for inflight@https://registry.npmjs.org/inflight/-/inflight-1.0.6.tgz. Extracting by manifest.
+57 silly tarball no local data for htmlhint@https://registry.npmjs.org/htmlhint/-/htmlhint-1.6.3.tgz. Extracting by manifest.
+58 silly tarball no local data for graceful-fs@https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz. Extracting by manifest.
+59 silly tarball no local data for has-flag@https://registry.npmjs.org/has-flag/-/has-flag-4.0.0.tgz. Extracting by manifest.
+60 silly tarball no local data for glob@https://registry.npmjs.org/glob/-/glob-8.1.0.tgz. Extracting by manifest.
+61 silly tarball no local data for fs-extra@https://registry.npmjs.org/fs-extra/-/fs-extra-11.3.0.tgz. Extracting by manifest.
+62 silly tarball no local data for fs.realpath@https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz. Extracting by manifest.
+63 silly tarball no local data for commander@https://registry.npmjs.org/commander/-/commander-11.1.0.tgz. Extracting by manifest.
+64 silly tarball no local data for color-convert@https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz. Extracting by manifest.
+65 silly tarball no local data for balanced-match@https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz. Extracting by manifest.
+66 silly tarball no local data for brace-expansion@https://registry.npmjs.org/brace-expansion/-/brace-expansion-2.0.2.tgz. Extracting by manifest.
+67 silly tarball no local data for color-name@https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz. Extracting by manifest.
+68 silly tarball no local data for chalk@https://registry.npmjs.org/chalk/-/chalk-4.1.2.tgz. Extracting by manifest.
+69 silly tarball no local data for async@https://registry.npmjs.org/async/-/async-3.2.6.tgz. Extracting by manifest.
+70 silly tarball no local data for ansi-styles@https://registry.npmjs.org/ansi-styles/-/ansi-styles-4.3.0.tgz. Extracting by manifest.
+71 silly tarball no local data for @types/sarif@https://registry.npmjs.org/@types/sarif/-/sarif-2.1.7.tgz. Extracting by manifest.
+72 http fetch GET 200 https://registry.npmjs.org/is-glob/-/is-glob-4.0.3.tgz 274ms (cache miss)
+73 http fetch GET 200 https://registry.npmjs.org/jsonfile/-/jsonfile-6.1.0.tgz 277ms (cache miss)
+74 http fetch GET 200 https://registry.npmjs.org/is-extglob/-/is-extglob-2.1.1.tgz 281ms (cache miss)
+75 http fetch GET 200 https://registry.npmjs.org/xml/-/xml-1.0.1.tgz 294ms (cache miss)
+76 http fetch GET 200 https://registry.npmjs.org/wrappy/-/wrappy-1.0.2.tgz 321ms (cache miss)
+77 http fetch GET 200 https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz 319ms (cache miss)
+78 http fetch GET 200 https://registry.npmjs.org/supports-color/-/supports-color-7.2.0.tgz 322ms (cache miss)
+79 http fetch GET 200 https://registry.npmjs.org/inflight/-/inflight-1.0.6.tgz 318ms (cache miss)
+80 warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+81 http fetch GET 200 https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-3.1.1.tgz 324ms (cache miss)
+82 http fetch GET 200 https://registry.npmjs.org/once/-/once-1.4.0.tgz 329ms (cache miss)
+83 http fetch GET 200 https://registry.npmjs.org/universalify/-/universalify-2.0.1.tgz 330ms (cache miss)
+84 http fetch GET 200 https://registry.npmjs.org/has-flag/-/has-flag-4.0.0.tgz 358ms (cache miss)
+85 http fetch GET 200 https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.2.11.tgz 365ms (cache miss)
+86 http fetch GET 200 https://registry.npmjs.org/glob/-/glob-8.1.0.tgz 386ms (cache miss)
+87 warn deprecated glob@8.1.0: Glob versions prior to v9 are no longer supported
+88 http fetch GET 200 https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz 389ms (cache miss)
+89 http fetch GET 200 https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz 390ms (cache miss)
+90 http fetch GET 200 https://registry.npmjs.org/minimatch/-/minimatch-5.1.6.tgz 399ms (cache miss)
+91 http fetch GET 200 https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz 401ms (cache miss)
+92 http fetch GET 200 https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz 404ms (cache miss)
+93 http fetch GET 200 https://registry.npmjs.org/ansi-styles/-/ansi-styles-4.3.0.tgz 446ms (cache miss)
+94 http fetch GET 200 https://registry.npmjs.org/fs-extra/-/fs-extra-11.3.0.tgz 459ms (cache miss)
+95 http fetch GET 200 https://registry.npmjs.org/commander/-/commander-11.1.0.tgz 467ms (cache miss)
+96 http fetch GET 200 https://registry.npmjs.org/chalk/-/chalk-4.1.2.tgz 472ms (cache miss)
+97 http fetch GET 200 https://registry.npmjs.org/node-sarif-builder/-/node-sarif-builder-3.2.0.tgz 489ms (cache miss)
+98 http fetch GET 200 https://registry.npmjs.org/brace-expansion/-/brace-expansion-2.0.2.tgz 525ms (cache miss)
+99 http fetch GET 200 https://registry.npmjs.org/@types/sarif/-/sarif-2.1.7.tgz 527ms (cache miss)
+100 http fetch GET 200 https://registry.npmjs.org/async/-/async-3.2.6.tgz 678ms (cache miss)
+101 http fetch GET 200 https://registry.npmjs.org/htmlhint/-/htmlhint-1.6.3.tgz 688ms (cache miss)
+102 http fetch POST 200 https://registry.npmjs.org/-/npm/v1/security/advisories/bulk 930ms
+103 silly audit report {}
+104 silly ADD node_modules/xml
+105 silly ADD node_modules/wrappy
+106 silly ADD node_modules/universalify
+107 silly ADD node_modules/supports-color
+108 silly ADD node_modules/strip-json-comments
+109 silly ADD node_modules/once
+110 silly ADD node_modules/node-sarif-builder
+111 silly ADD node_modules/minimatch
+112 silly ADD node_modules/jsonfile
+113 silly ADD node_modules/is-glob
+114 silly ADD node_modules/is-extglob
+115 silly ADD node_modules/inherits
+116 silly ADD node_modules/inflight
+117 silly ADD node_modules/htmlhint
+118 silly ADD node_modules/has-flag
+119 silly ADD node_modules/graceful-fs
+120 silly ADD node_modules/glob
+121 silly ADD node_modules/fs.realpath
+122 silly ADD node_modules/fs-extra
+123 silly ADD node_modules/commander
+124 silly ADD node_modules/color-name
+125 silly ADD node_modules/color-convert
+126 silly ADD node_modules/chalk
+127 silly ADD node_modules/brace-expansion
+128 silly ADD node_modules/balanced-match
+129 silly ADD node_modules/async
+130 silly ADD node_modules/ansi-styles
+131 silly ADD node_modules/@types/sarif
+132 verbose cwd C:\Users\lucim\Documents\GitHub\inventario-invop-php
+133 verbose os Windows_NT 10.0.26100
+134 verbose node v22.14.0
+135 verbose npm  v11.3.0
+136 verbose exit 0
+137 info ok
