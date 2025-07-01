@@ -36,5 +36,4 @@ if (!file_exists($file)) {
 }
 
 include $file;
-
 include 'partials/footer.php';
