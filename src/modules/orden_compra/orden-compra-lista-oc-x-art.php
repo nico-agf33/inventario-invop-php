@@ -3,7 +3,7 @@ use GuzzleHttp\Client;
 
 $action = $_GET['action'] ?? 'lista-oc-x-art';
 
-include __DIR__ . '/orden-compra-tabs.php';
+include __DIR__ . '/src/tabs/orden-compra-tabs.php';
 ?>
 
 <?php if ($action === 'lista-oc-x-art'): ?>

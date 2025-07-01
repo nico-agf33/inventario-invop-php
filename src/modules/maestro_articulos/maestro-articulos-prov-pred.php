@@ -3,7 +3,7 @@
 
     $action = $_GET['action'] ?? 'prov-pred';
 
-    include __DIR__ . '/maestro-articulos-tabs.php';
+    include __DIR__ . '/src/tabs/maestro-articulos-tabs.php';
     ?>
 
     <style>
