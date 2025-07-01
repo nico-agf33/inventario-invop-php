@@ -43,7 +43,7 @@
                 <label>Stock máx.:
                     <input type="number" name="stockMax" id="stockMax" min="1" max="999999" required>
                 </label><br><br>
-                    <input type="submit" value="Guardar artículo">
+                    <input type="submit" value="Guardar artículo" class="boton-accion">
                 </form>
             </div>
         </div>
