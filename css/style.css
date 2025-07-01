@@ -1,0 +1,179 @@
+
+nav {
+    background-color: #333;
+    padding: 1em;
+    font-family: Arial, sans-serif;
+}
+
+nav a {
+    color: white;
+    margin-right: 1.5em;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #ffcc00;
+}
+
+nav a.activo-nav {
+  background-color: #c8f7c5; 
+  color: #000;
+  border: 1px solid #a3d9a5;
+  border-radius: 4px;
+  padding: 0.4em 0.8em;
+}
+
+.menu li a {
+  display: block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  color: black;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.menu li a.activo {
+  background-color: #c8f7c5; 
+  border: 1px solid #a3d9a5;
+  font-weight: bold;
+}
+
+.tab-link {
+  padding: 0.4em 0.8em;
+  font-weight: bold;
+  text-decoration: none;
+  margin-right: 0.5em;
+  color: #000;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  background-color: #f2f2f2;
+}
+
+.tab-link:hover {
+  background-color: #e6ffe6;
+}
+
+.tab-link.active-tab-module {
+  background-color: #008b8b;  /* turquesa oscuro */
+  color: white;
+  border: 1px solid #006666;
+}
+
+.tabs-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  margin: 1em 0;
+}
+
+.tabs-container a {
+  white-space: nowrap;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1em;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-family: Arial, sans-serif;
+    font-size: 0.9em;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    padding-top: 40px; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    box-sizing: border-box;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 60%;
+    border-radius: 8px;
+}
+
+.modal-content.alta-proveedor {
+  display: flex;
+  flex-direction: column;
+  height: 90vh;
+  box-sizing: border-box;
+}
+
+.modal-content.alta-proveedor > .close {
+  align-self: flex-end;
+}
+
+.modal-content.alta-proveedor > div.contenido-flex {
+  flex: 1;
+  display: flex;
+  gap: 2em;
+  overflow: hidden;
+}
+
+.formulario-proveedor {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+  box-sizing: border-box;
+}
+
+.asignar-articulos {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+}
+
+#listaArticulosAsignables, #articulosAsignados {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 0;
+  margin-bottom: 1em;
+  list-style: none;
+}
+
+#detalleArticuloSeleccionado {
+  margin-bottom: 1em;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+}
+
+.articulo-item {
+  cursor: pointer;
+  padding: 8px;
+  border: 1px solid transparent;
+  margin-bottom: 4px;
+}
+
+.articulo-item.selected {
+  border: 2px solid green;
+  background-color: #e6ffe6; 
+}
