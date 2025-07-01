@@ -7,9 +7,9 @@ frontend para sistema de gestión de inventario
 * Composer -> https://getcomposer.org/Composer-Setup.exe
 ### -
 ### ejecución
-- instalar dependencias -> en la carpeta raíz del proyecto, ejecutar los comandos:
+instalar dependencias -> en la carpeta raíz del proyecto, ejecutar los comandos:
 * ``composer install``
 * ``npm install`` 
-- para levantar servidor, ejecutar:
+para levantar servidor, ejecutar:
 * ``php -S localhost:8008``
 
