@@ -83,6 +83,31 @@
             </div>
         </div>
 
+    <div id="modalAjusteStock" class="modal" style="display:none;">
+        <div class="modal-content" style="max-width: 400px;">
+            <span class="close" onclick="cerrarModalAjusteStock()" style="cursor:pointer;float:right;font-size:24px;">&times;</span>
+            <h3 id="tituloAjusteStock">Ajuste de Stock</h3>
+
+            <form id="formAjusteStock">
+            <input type="hidden" id="ajusteIdArticulo">
+            <label>
+                Stock Actual:
+                <input type="number" id="inputStockActual" min="0" required style="width:100%; padding:4px;">
+            </label><br><br>
+
+            <label>
+                Stock Máximo:
+                <input type="number" id="inputStockMax" min="1" required style="width:100%; padding:4px;">
+            </label><br><br>
+
+            <div style="text-align:right;">
+                <button type="button" onclick="cerrarModalAjusteStock()" style="margin-right:8px;">Cancelar</button>
+                <button type="submit">Guardar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
 
@@ -359,6 +384,85 @@
         modeloSelect.selectedIndex = 0; 
         modeloSelect.dispatchEvent(new Event('change')); 
     }
+
+    async function ajusteStock(idArticulo) {
+        try {
+            const resp = await fetch(`http://localhost:5000/MaestroArticulos/articulo-datos/${idArticulo}`);
+            if (!resp.ok) {
+                const text = await resp.text();
+                alert("Error al obtener datos del artículo: " + text);
+                return;
+            }
+            const art = await resp.json();
+
+            document.getElementById('ajusteIdArticulo').value = art.idArticulo;
+            document.getElementById('inputStockActual').value = art.stockActual ?? 0;
+            document.getElementById('inputStockMax').value = art.stockMax ?? 1;
+            document.getElementById('tituloAjusteStock').textContent = `ID ${art.idArticulo} - ${art.nombreArticulo}`;
+            document.getElementById('modalAjusteStock').style.display = 'block';
+
+        } catch (err) {
+            alert("Error de red al obtener artículo: " + err.message);
+        }
+    }
+
+    function cerrarModalAjusteStock() {
+        document.getElementById('modalAjusteStock').style.display = 'none';
+    }
+
+    document.getElementById('formAjusteStock').addEventListener('submit', async function(ev) {
+        ev.preventDefault();
+
+        const idArticulo = parseInt(document.getElementById('ajusteIdArticulo').value);
+        const stockActual = Number(document.getElementById('inputStockActual').value);
+        const stockMax = Number(document.getElementById('inputStockMax').value);
+
+        if (
+            !Number.isInteger(stockMax) || stockMax < 1 || stockMax > 999999 ||
+            !Number.isInteger(stockActual) || stockActual < 0 || stockActual > stockMax
+        ) {
+            alert("Verificar valores numéricos ingresados. ");
+            return;
+        }
+
+        const dto = {
+        idArticulo: idArticulo,
+        nombreArticulo: "", 
+        descripcion: "",
+        modeloInv: "",
+        proveedor: "",
+        demandaEst: 0,
+        unidadTemp: "",  
+        costoAlmacen: 0,
+        tiempoRevisionDias: 0,
+        stockActual: stockActual,
+        stockSeguridad: 0,
+        puntoPedido: 0,
+        stockMax: stockMax,
+        cgi: 0,
+        };
+
+        try {
+            const resp = await fetch('http://localhost:5000/MaestroArticulos/ajuste-stock', {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(dto)
+            });
+
+            if (resp.ok) {
+                alert("Inventario actualizado correctamente.");
+                cerrarModalAjusteStock();
+                location.reload();
+            } else {
+                const json = await resp.json();
+                alert("Error al actualizar inventario: " + (json.error || JSON.stringify(json)));
+            }
+
+        } catch (err) {
+            alert("Error de red al actualizar inventario: " + err.message);
+        }
+    });
+
     </script>
 
         <?php
@@ -439,6 +543,7 @@
                                 <button onclick="editarArticulo(JSON.parse(atob('<?= $jsonArt ?>')))" title="Editar" style="margin-right:4px;">✏️</button>
                                 <button onclick="eliminarArticulo(<?= $art['idArticulo'] ?>)" title="Eliminar" style="margin-right:4px; color:red;">❌</button>
                                 <button onclick="verProveedores(<?= $art['idArticulo'] ?>)" title="Ver Proveedores">👤</button>
+                                <button onclick="ajusteStock(<?= $art['idArticulo'] ?>)" title="Ajustar stock">🔧</button>
                             </td>
                         </tr>
                     <?php endforeach; ?>
