@@ -359,7 +359,7 @@ footer {
 
 .articulo-item.selected {
   border: 2px solid green;
-  background-color: #e6ffe6; 
+  background-color: #04002b; 
 }
 
 .flex-row {
@@ -371,4 +371,22 @@ footer {
 .flex-row label {
     display: flex;
     flex-direction: column;
+}
+
+.boton-advertencia {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 1.2em;
+  cursor: pointer;
+  padding-left: 4px;
+  vertical-align: middle;
+}
+
+.boton-advertencia:hover {
+  color: #ff5555;
+}
+
+.modal-content.advertencia {
+  border-left: 6px solid red;
 }

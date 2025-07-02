@@ -509,47 +509,96 @@
                 <?php if (empty($articulos)): ?>
                     <tr><td colspan="14" style="text-align:center;">No hay artículos activos.</td></tr>
                 <?php else: ?>
-                    <?php foreach ($articulos as $art): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($art['idArticulo']) ?></td>
-                            <td><?= htmlspecialchars($art['nombreArticulo']) ?></td>
-                            <td><?= htmlspecialchars($art['descripcion'] ?? '') ?></td>
-                            <td><?= htmlspecialchars($art['proveedor'] ?? '') ?></td>
-                            <td><?= htmlspecialchars($art['modeloInv'] ?? '') ?></td>
-                            <?php
-                                $unidadTemp = strtolower($art['unidadTemp'] ?? '');
-                                $numerador = 'un.';
-                                $denominador = match ($unidadTemp) {
-                                    'semanal' => 'semana',
-                                    'mensual' => 'mes',
-                                    'anual' => 'año',
-                                    default => '',
-                                };
-                                $fraccionLatex = "\\frac{{$numerador}}{{$denominador}}";
-                            ?>
-                            <td style="text-align:center;">
-                                <?= htmlspecialchars($art['demandaEst']) ?>
-                                <span class="katex-fraccion" data-latex="<?= htmlspecialchars($fraccionLatex) ?>"></span>
-                            </td>
-                            <td><?= htmlspecialchars($art['costoAlmacen'] ?? '') ?></td>
-                            <td><?= htmlspecialchars($art['tiempoRevisionDias'] ?? '') ?></td>
-                            <td><?= htmlspecialchars($art['stockActual'] ?? '') ?></td>
-                            <td><?= htmlspecialchars($art['stockMax'] ?? '') ?></td>
-                            <td><?= htmlspecialchars($art['stockSeguridad'] ?? '') ?></td>
-                            <td><?= htmlspecialchars($art['puntoPedido'] ?? '') ?></td>
-                            <td><?= htmlspecialchars($art['cgi'] ?? '') ?></td>
-                            <td>
-                                <?php $jsonArt = base64_encode(json_encode($art)); ?>
-                                <button onclick="editarArticulo(JSON.parse(atob('<?= $jsonArt ?>')))" title="Editar" style="margin-right:4px;">✏️</button>
-                                <button onclick="eliminarArticulo(<?= $art['idArticulo'] ?>)" title="Eliminar" style="margin-right:4px; color:red;">❌</button>
-                                <button onclick="verProveedores(<?= $art['idArticulo'] ?>)" title="Ver Proveedores">👤</button>
-                                <button onclick="ajusteStock(<?= $art['idArticulo'] ?>)" title="Ajustar stock">🔧</button>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
+                    <?php 
+                    $modalesAdvertencia = ""; // acumulador HTML
+                    foreach ($articulos as $art): 
+                        $advertencias = [];
+
+                        $modelo = strtolower($art['modeloInv'] ?? '');
+
+                        if ($modelo === 'lotefijo_q') {
+                            if (($art['puntoPedido'] ?? 0) >= ($art['stockMax'] ?? 0)) {
+                                $advertencias[] = "El punto de pedido no puede ser igual o mayor que el stock máximo.";
+                            }
+                            if (($art['stockActual'] ?? 0) <= ($art['puntoPedido'] ?? 0)) {
+                                $advertencias[] = "El stock actual está por debajo o igual al punto de pedido.";
+                            }
+                        } elseif ($modelo === 'periodofijo_p') {
+                            if (($art['stockActual'] ?? 0) <= ($art['stockSeguridad'] ?? 0)) {
+                                $advertencias[] = "El stock actual está por debajo o igual al stock de seguridad.";
+                            }
+                        }
+
+                        $hayAdvertencias = !empty($advertencias);
+                        $idModalAdvertencia = "modalAdvertencia_" . $art['idArticulo'];
+                    ?>
+                    <tr>
+                        <td>
+                            <?= htmlspecialchars($art['idArticulo']) ?>
+                            <?php if ($hayAdvertencias): ?>
+                                <button 
+                                    title="Advertencia"
+                                    class="boton-advertencia"
+                                    onclick="document.getElementById('<?= $idModalAdvertencia ?>').style.display = 'block';"
+                                >⚠️</button>
+                            <?php endif; ?>
+                        </td>
+                        <td><?= htmlspecialchars($art['nombreArticulo']) ?></td>
+                        <td><?= htmlspecialchars($art['descripcion'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($art['proveedor'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($art['modeloInv'] ?? '') ?></td>
+                        <?php
+                            $unidadTemp = strtolower($art['unidadTemp'] ?? '');
+                            $numerador = 'un.';
+                            $denominador = match ($unidadTemp) {
+                                'semanal' => 'semana',
+                                'mensual' => 'mes',
+                                'anual' => 'año',
+                                default => '',
+                            };
+                            $fraccionLatex = "\\frac{{$numerador}}{{$denominador}}";
+                        ?>
+                        <td style="text-align:center;">
+                            <?= htmlspecialchars($art['demandaEst']) ?>
+                            <span class="katex-fraccion" data-latex="<?= htmlspecialchars($fraccionLatex) ?>"></span>
+                        </td>
+                        <td><?= htmlspecialchars($art['costoAlmacen'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($art['tiempoRevisionDias'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($art['stockActual'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($art['stockMax'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($art['stockSeguridad'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($art['puntoPedido'] ?? '') ?></td>
+                        <td><?= htmlspecialchars($art['cgi'] ?? '') ?></td>
+                        <td>
+                            <?php $jsonArt = base64_encode(json_encode($art)); ?>
+                            <button onclick="editarArticulo(JSON.parse(atob('<?= $jsonArt ?>')))" title="Editar" style="margin-right:4px;">✏️</button>
+                            <button onclick="eliminarArticulo(<?= $art['idArticulo'] ?>)" title="Eliminar" style="margin-right:4px; color:red;">❌</button>
+                            <button onclick="verProveedores(<?= $art['idArticulo'] ?>)" title="Ver Proveedores">👤</button>
+                            <button onclick="ajusteStock(<?= $art['idArticulo'] ?>)" title="Ajustar stock">🔧</button>
+                        </td>
+                    </tr>
+                    <?php if ($hayAdvertencias):
+                        ob_start(); ?>
+                        <div class="modal" id="<?= $idModalAdvertencia ?>" style="display:none;">
+                            <div class="modal-content advertencia">
+                                <span class="close" onclick="document.getElementById('<?= $idModalAdvertencia ?>').style.display='none'">&times;</span>
+                                <h3>Advertencias para artículo: <?= htmlspecialchars($art['nombreArticulo']) ?></h3>
+                                <ul>
+                                    <?php foreach ($advertencias as $msg): ?>
+                                        <li style="color:red;"><?= htmlspecialchars($msg) ?></li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </div>
+                        </div>
+                    <?php 
+                        $modalesAdvertencia .= ob_get_clean(); 
+                    endif;
+                    endforeach; ?>
                 <?php endif; ?>
             </tbody>
         </table>
     </div>
+
+    <?= $modalesAdvertencia ?>
 
     <?php endif; ?>
