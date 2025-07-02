@@ -1,0 +1,450 @@
+    <?php
+    use GuzzleHttp\Client;
+
+    $action = $_GET['action'] ?? 'abm-art';
+
+    include __DIR__ . '/../../tabs/maestro-articulos-tabs.php';
+    ?>
+
+    <?php if ($action === 'abm-art'): ?>
+
+    <div id="modalCrearArticulo" class="modal">
+        <div class="modal-content">
+            <span class="close" 
+                onclick="
+                document.getElementById('modalCrearArticulo').style.display='none';
+                document.getElementById('idArticulo').value = '';
+                document.querySelector('#modalCrearArticulo h3').textContent = 'Crear nuevo artículo';
+                const form = document.getElementById('formCrearArticulo');
+                form.querySelector('input[type=submit]').value = 'Guardar artículo';
+                form.reset();
+                document.getElementById('modeloInv').dispatchEvent(new Event('change'));
+                ">&times;</span>
+            <h3>Crear nuevo artículo</h3>
+            <form id="formCrearArticulo">
+                <input type="hidden" name="idArticulo" id="idArticulo">
+                <label>Nombre: <input type="text" name="nombreArticulo" required></label><br><br>
+                <label>Descripción: <input type="text" name="descripcion" required></label><br><br>
+                <label>Modelo de inventario:
+                    <select name="modeloInv" id="modeloInv" required></select>
+                </label><br><br>
+                <div class="flex-row">
+                    <label>Demanda estimada:
+                        <input type="number" name="demandaEst" min="1" max="999999" required>
+                    </label>
+                    
+                    <label>Unidad de tiempo:
+                        <select name="unidadTemp" id="unidadTemp" required></select>
+                    </label>
+                </div>
+                <br><br>
+                <label>Costo anual de almacén ($):
+                    <input type="number" name="costoAlmacen" step="0.01" min="0.01" max="999999" required>
+                </label><br><br>
+                <label>Período de revisión (en dias):
+                    <input type="number" name="tiempoRevisionDias" id="tiempoRevisionDias" min="1" max="999999" disabled required>
+                </label><br><br>
+                <label>Stock máx.:
+                    <input type="number" name="stockMax" id="stockMax" min="1" max="999999" required>
+                </label><br><br>
+                <label>Nivel de servicio esperado:
+                    <input type="number" name="nivelServicio" step="0.0001" min="0.0001" max="100" required>
+                </label><br><br>
+                <label>Desviación estándar anual:
+                    <input type="number" name="desviacionEstandarDemanda" step="0.0001" min="0.0001" max="999999" required>
+                </label><br><br>
+                    <input type="submit" value="Guardar artículo" class="boton-accion">
+                </form>
+            </div>
+        </div>
+
+        <div id="modalProveedores" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="cerrarModalProveedores()">&times;</span>  
+                <h3>Proveedores del Artículo</h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                                <th>Dirección</th>
+                                <th>Precio Unitario</th>
+                                <th>Costo de pedido</th>
+                                <th>Tiempo de entrega de pedido (días)</th>
+                                <th>Prov. Predeterminado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="proveedoresBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js"></script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const elems = document.querySelectorAll('.katex-fraccion');
+        elems.forEach(el => {
+            const latex = el.getAttribute('data-latex');
+            if (window.katex && latex) {
+                katex.render(latex, el, {
+                    throwOnError: false,
+                    displayMode: false
+                });
+            }
+        });
+    });
+    </script>
+
+    <script>
+    window.addEventListener('DOMContentLoaded', async () => {
+        const modeloSelect = document.getElementById('modeloInv');
+        const uTempSelect = document.getElementById('unidadTemp');
+        const tiempoInput = document.getElementById('tiempoRevisionDias');
+
+        try {
+            const modelos = await fetch('http://localhost:5000/MaestroArticulos/modeloInventario/lista-modelos').then(rs => rs.json());
+            modelos.forEach(modInv => {
+                const opt = document.createElement('option');
+                opt.value = modInv.id;
+                opt.textContent = modInv.nombreModInv;
+                modeloSelect.appendChild(opt);
+            });
+
+            const unidadesTemp = await fetch('http://localhost:5000/MaestroArticulos/modeloInventario/lista-unidades-temp').then(rs => rs.json());
+            unidadesTemp.forEach(uTemp => {
+                const opt = document.createElement('option');
+                opt.value = uTemp.id;
+                opt.textContent = uTemp.nombreUnidadTemp;
+                uTempSelect.appendChild(opt);
+            });
+
+            modeloSelect.addEventListener('change', () => {
+                const selectedId = parseInt(modeloSelect.value);
+                tiempoInput.disabled = (selectedId !== 2); 
+            });
+
+            uTempSelect.addEventListener('change', () => {
+                const selectedId = parseInt(uTempSelect.value);
+            });
+
+        } catch (err) {
+            alert("error cargando modelos de inventario: " + err);
+        }
+    });
+
+    document.getElementById('formCrearArticulo').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const form = e.target;
+        const modeloId = parseInt(form.modeloInv.value);
+        const unidadTempId = parseInt(form.unidadTemp.value);
+        const idArticulo = document.getElementById('idArticulo').value;
+        const demandaEstRaw = form.demandaEst.value;
+        const stockMaxRaw = form.stockMax.value;
+        const costoAlmacenRaw = form.costoAlmacen.value;
+        const tiempoRevisionRaw = form.tiempoRevisionDias.value;
+        const nivelServicioRaw = form.nivelServicio.value;
+        const desviacionRaw = form.desviacionEstandarDemanda.value;
+
+        const data = {
+            nombreArticulo: form.nombreArticulo.value.trim(),
+            descripcion: form.descripcion.value.trim(),
+            modeloInv: modeloId,
+            demandaEst: Number(demandaEstRaw),
+            unidadTemp: unidadTempId,
+            stockMax: Number(stockMaxRaw),
+            costoAlmacen: Number(costoAlmacenRaw),
+            tiempoRevisionDias: modeloId === 2 ? Number(tiempoRevisionRaw) : 0,
+            nivelServicio: Number(nivelServicioRaw),
+            desviacionEstandarDemanda: Number(desviacionRaw),
+            idMaster: 1
+        };
+
+        if (
+            !Number.isInteger(data.demandaEst) || data.demandaEst < 1 || data.demandaEst > 999999 ||
+            !Number.isInteger(data.stockMax) || data.stockMax < 1 || data.stockMax > 999999 ||
+            !Number.isFinite(data.costoAlmacen) || data.costoAlmacen <= 0.01 || data.costoAlmacen > 999999 ||
+            !Number.isFinite(data.nivelServicio) || data.nivelServicio < 0.0001 || data.nivelServicio > 100 ||
+            !Number.isFinite(data.desviacionEstandarDemanda) || data.desviacionEstandarDemanda < 0.0001 || data.desviacionEstandarDemanda > 999999 ||
+            (modeloId === 2 && (!Number.isInteger(data.tiempoRevisionDias) || data.tiempoRevisionDias < 1 || data.tiempoRevisionDias > 999999))
+        ) {
+            alert("Verificar valores numéricos ingresados.");
+            return;
+        }
+
+        if (idArticulo) {
+            data.idArticulo = parseInt(idArticulo);
+            try {
+                const resp = await fetch('http://localhost:5000/MaestroArticulos/articulo/UpdateArticulo', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+
+                if (resp.ok) {
+                    alert("Artículo modificado con éxito ");
+                    location.reload();
+                } else {
+                    const msg = await resp.text();
+                    alert("Error al modificar el artículo: " + msg);
+                }
+            } catch (err) {
+                alert("Error de red: " + err);
+            }
+        } else {
+            try {
+                const resp = await fetch('http://localhost:5000/MaestroArticulos/articulo/CreateArticulo', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(data)
+                });
+
+                if (resp.ok) {
+                    alert("Artículo creado con éxito ");
+                    location.reload();
+                } else {
+                    const msg = await resp.text();
+                    alert("Error al crear el artículo: " + msg);
+                }
+            } catch (err) {
+                alert("Error de red o conexión: " + err);
+            }
+        }
+    });
+
+    function editarArticulo(articulo) {
+        document.getElementById('modalCrearArticulo').style.display = 'block';
+
+        const form = document.getElementById('formCrearArticulo');
+        form.nombreArticulo.value = articulo.nombreArticulo || '';
+        form.descripcion.value = articulo.descripcion || '';
+        form.demandaEst.value = articulo.demandaEst || '';
+        form.costoAlmacen.value = articulo.costoAlmacen || '';
+        form.tiempoRevisionDias.value = articulo.tiempoRevisionDias || '';
+        form.stockMax.value = articulo.stockMax || '';
+        document.getElementById('idArticulo').value = articulo.idArticulo;
+        document.getElementById('modeloInv').value = articulo.modeloInvId || '';
+        document.getElementById('unidadTemp').value = articulo.unidadTempId || '';
+        document.getElementById('tiempoRevisionDias').disabled = (parseInt(articulo.modeloInvId) !== 2);
+        document.querySelector('#modalCrearArticulo h3').textContent = 'Editar Artículo';
+        form.querySelector('input[type="submit"]').value = 'Guardar Cambios';
+        form.setAttribute('data-modo', 'editar');
+    }
+
+    async function eliminarArticulo(idArticulo) {
+        if (!confirm('¿Confirma que desea eliminar este artículo? Esta acción no se puede deshacer ')) {
+            return;
+        }
+
+        try {
+            const resp = await fetch(`http://localhost:5000/MaestroArticulos/articulo/DeleteArticulo/${idArticulo}`, {
+                method: 'DELETE'
+            });
+
+            if (resp.ok) {
+                alert('Artículo eliminado con éxito ');
+                location.reload();
+            } else {
+                const msg = await resp.text();
+                alert('Error al eliminar el artículo: ' + msg);
+            }
+        } catch (err) {
+            alert('Error de red o conexión: ' + err);
+        }
+    }
+
+    async function verProveedores(idArticulo) {
+        const modal = document.getElementById('modalProveedores');
+        const tbody = document.getElementById('proveedoresBody');
+
+        tbody.innerHTML = '';
+
+        try {
+            const response = await fetch(`http://localhost:5000/MaestroArticulos/articulosLista/proveedores/${idArticulo}`);
+            if (!response.ok) throw new Error('Error al obtener proveedores');
+
+            const proveedores = await response.json();
+
+            if (proveedores.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;">No hay proveedores asociados</td></tr>';
+            } else {
+                proveedores.forEach(p => {
+                const tr = document.createElement('tr');
+
+                function crearCelda(text, isCenter = false) {
+                    const td = document.createElement('td');
+                    td.textContent = text;
+                    if (isCenter) {
+                        td.style.whiteSpace = 'nowrap';
+                        td.style.backgroundColor = '#fff';
+                        td.style.textAlign = 'center';
+                    }
+                    return td;
+                }
+
+                tr.appendChild(crearCelda(p.nombreProveedor || ''));
+                tr.appendChild(crearCelda(p.emailProveedor || ''));
+                tr.appendChild(crearCelda(p.telProveedor || ''));
+                tr.appendChild(crearCelda(p.direccionProveedor || ''));
+                tr.appendChild(crearCelda(p.precioUnitario != null ? p.precioUnitario.toFixed(3) : ''));
+                tr.appendChild(crearCelda(p.costoPedido != null ? p.costoPedido.toFixed(3) : ''));
+                tr.appendChild(crearCelda(p.tiempoEntregaDias || ''));
+                tr.appendChild(crearCelda(p.predeterminado ? 'Sí' : 'No', true));
+
+                tbody.appendChild(tr);
+                });
+            }
+            modal.style.display = 'block';
+        } catch (err) {
+            alert('Error cargando proveedores: ' + err.message);
+        }
+    }
+
+    function cerrarModalProveedores() {
+        document.getElementById('modalProveedores').style.display = 'none';
+    }
+
+    async function calcularParametros() {
+        if (!confirm("¿Confirma que desea recalcular parámetros?")) return;
+
+        try {
+            const resp = await fetch('http://localhost:5000/MaestroArticulos/modeloInventario/calc-mod-inv');
+
+            if (!resp.ok) {
+                const msg = await resp.text();
+                alert("Error en el cálculo: " + msg);
+                return;
+            }
+
+            const contentType = resp.headers.get('content-type');
+
+            if (contentType && contentType.includes('application/json')) {
+                const datos = await resp.json();
+
+                if (Array.isArray(datos) && datos.length === 0) {
+                    alert("No se encontraron artículos para calcular, o ninguno de los existentes posee proveedor predeterminado");
+                } else {
+                    alert("Parámetros de inventario calculados exitosamente.");
+                }
+
+            } else {
+                const texto = await resp.text();
+                alert("Resultado: " + texto);
+            }
+
+            location.reload();
+
+        } catch (err) {
+            alert("Error de red: " + err.message);
+        }
+    }
+
+    function abrirModalCrearArticulo() {
+        const modal = document.getElementById('modalCrearArticulo');
+        const form = document.getElementById('formCrearArticulo');
+
+        modal.style.display = 'block';
+
+        document.getElementById('idArticulo').value = '';
+        document.querySelector('#modalCrearArticulo h3').textContent = 'Crear nuevo artículo';
+        form.querySelector('input[type=submit]').value = 'Guardar artículo';
+        form.reset();
+
+        const modeloSelect = document.getElementById('modeloInv');
+        modeloSelect.selectedIndex = 0; 
+        modeloSelect.dispatchEvent(new Event('change')); 
+    }
+    </script>
+
+        <?php
+        $client = new Client(['base_uri' => 'http://localhost:5000']); 
+
+        try {
+            $response = $client->get('/MaestroArticulos/articulos/list-art-datos'); 
+            $articulos = json_decode($response->getBody(), true);
+        } catch (Exception $e) {
+            $articulos = [];
+            echo "<p style='color:red;'>Error al obtener artículos: " . $e->getMessage() . "</p>";
+        }
+        ?>
+
+    <div class="table-header">
+        <h2>Lista de Artículos Activos</h2>
+        <div class="acciones">
+            <button class="boton-accion" onclick="abrirModalCrearArticulo()">Añadir artículo</button>
+            <button class="boton-accion" onclick="calcularParametros()">Calcular parámetros de stock</button>
+        </div>
+    </div>
+
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Prov. predeterminado</th>
+                    <th>Modelo Inv.</th>
+                    <th>Demanda estimada</th>
+                    <th>Costo anual de almacén ($)</th>
+                    <th>Tiempo de revisión (días)</th>
+                    <th>Stock Actual</th>
+                    <th>Stock Máx.</th>
+                    <th>Stock de Seguridad</th>
+                    <th>Punto de Pedido</th>
+                    <th>CGI</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (empty($articulos)): ?>
+                    <tr><td colspan="14" style="text-align:center;">No hay artículos activos.</td></tr>
+                <?php else: ?>
+                    <?php foreach ($articulos as $art): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($art['idArticulo']) ?></td>
+                            <td><?= htmlspecialchars($art['nombreArticulo']) ?></td>
+                            <td><?= htmlspecialchars($art['descripcion'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($art['proveedor'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($art['modeloInv'] ?? '') ?></td>
+                            <?php
+                                $unidadTemp = strtolower($art['unidadTemp'] ?? '');
+                                $numerador = 'un.';
+                                $denominador = match ($unidadTemp) {
+                                    'semanal' => 'semana',
+                                    'mensual' => 'mes',
+                                    'anual' => 'año',
+                                    default => '',
+                                };
+                                $fraccionLatex = "\\frac{{$numerador}}{{$denominador}}";
+                            ?>
+                            <td style="text-align:center;">
+                                <?= htmlspecialchars($art['demandaEst']) ?>
+                                <span class="katex-fraccion" data-latex="<?= htmlspecialchars($fraccionLatex) ?>"></span>
+                            </td>
+                            <td><?= htmlspecialchars($art['costoAlmacen'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($art['tiempoRevisionDias'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($art['stockActual'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($art['stockMax'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($art['stockSeguridad'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($art['puntoPedido'] ?? '') ?></td>
+                            <td><?= htmlspecialchars($art['cgi'] ?? '') ?></td>
+                            <td>
+                                <?php $jsonArt = base64_encode(json_encode($art)); ?>
+                                <button onclick="editarArticulo(JSON.parse(atob('<?= $jsonArt ?>')))" title="Editar" style="margin-right:4px;">✏️</button>
+                                <button onclick="eliminarArticulo(<?= $art['idArticulo'] ?>)" title="Eliminar" style="margin-right:4px; color:red;">❌</button>
+                                <button onclick="verProveedores(<?= $art['idArticulo'] ?>)" title="Ver Proveedores">👤</button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <?php endif; ?>
