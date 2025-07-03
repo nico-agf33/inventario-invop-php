@@ -8,17 +8,17 @@ include __DIR__ . '/../../tabs/orden-compra-tabs.php';
 
 <?php if ($action === 'gestion-oc'): ?>
 
-<div style="display: flex; flex-direction: column; height: calc(100vh - 200px); border: 1px solid #ccc; border-radius: 6px; padding: 1em; background-color: #fdfdfd; box-shadow: 0 0 10px rgba(0,0,0,0.05); margin-bottom: 1em;">
+<div class="contenedor-ordenes-compra">
 
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1em;">
+  <div class="header-ordenes">
     <h2>Gestión de Órdenes de Compra</h2>
-    <button id="btnGenerarOC" style="font-size: 1em; padding: 0.5em 1em; cursor: pointer;">
-      <span style="color: green; font-weight: bold;">+</span> Generar Orden Compra
+    <button id="btnGenerarOC"  class="boton-accion">
+     Generar Orden Compra
     </button>
   </div>
 
-  <div style="flex: 1; overflow-y: auto; border-top: 1px solid #ddd;">
-    <table border="1" cellspacing="0" cellpadding="8" style="width: 100%; text-align: left;">
+  <div class="tabla-wrapper">
+    <table class="tabla-base">
       <thead>
         <tr>
           <th>N° Orden</th>
@@ -35,11 +35,11 @@ include __DIR__ . '/../../tabs/orden-compra-tabs.php';
 
 </div>
 
-<div id="modalDetalles" class="modal">
-  <div class="modal-content" style="width: 80%; max-height: 80vh; overflow-y: auto;">
+<div id="modalDetalles"  class="modal">
+  <div class="modal-content">
     <span class="close" onclick="cerrarModalDetalles()">&times;</span>
     <h3>Detalles de Orden de Compra</h3>
-    <table border="1" cellspacing="0" cellpadding="6" style="width: 100%; text-align: left;">
+    <table class="tabla-base">
       <thead>
         <tr>
           <th>ID Articulo</th>
@@ -54,10 +54,11 @@ include __DIR__ . '/../../tabs/orden-compra-tabs.php';
   </div>
 </div>
 
-<div id="modalGenerarOC" class="modal" style="display:none; position:fixed; top:10%; left:10%; width:80%; height:70%; background:white; border:1px solid #ccc; padding:1em; overflow-y:auto;">
-  <span class="close" onclick="cerrarModalOC()" style="float:right; cursor:pointer; font-size:1.5em">&times;</span>
+<div id="modalGenerarOC" class="modal">
+  <div class="modal-content">
+  <span class="close" onclick="cerrarModalOC()">&times;</span>
   <h3>Seleccionar artículo para generar orden de compra</h3>
-  <table border="1" cellpadding="8" cellspacing="0" style="width: 100%;">
+  <table class="tabla-base">
     <thead>
       <tr>
         <th>ID Artículo</th>
@@ -67,34 +68,19 @@ include __DIR__ . '/../../tabs/orden-compra-tabs.php';
     </thead>
     <tbody id="tablaArticulosActivos"></tbody>
   </table>
-</div>
-
-<div id="modalAdvertenciasOC" class="modal" style="display: none;">
-  <div class="modal-content" style="width: 60%; max-height: 80vh; overflow-y: auto;">
-    <span class="close" onclick="cerrarAdvertenciasModal()">&times;</span>
-    <h3>Advertencias durante la generación de la orden</h3>
-    <ul id="listaAdvertenciasOC" style="list-style: none; padding-left: 0;"></ul>
-    <div style="text-align: right; margin-top: 1em;">
-      <button onclick="cerrarAdvertenciasModal()">Cerrar</button>
-    </div>
   </div>
 </div>
 
-<style>
-  #tablaOrdenesCompra td.acciones-col {
-    white-space: nowrap;
-    text-align: center;
-    padding: 8px;
-  }
-
-  #tablaOrdenesCompra td.acciones-col button {
-    padding: 4px 8px;
-    font-size: 0.9em;
-    margin: 0 2px;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-</style>
+<div id="modalAdvertenciasOC" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="cerrarAdvertenciasModal()">&times;</span>
+    <h3>Advertencias durante la generación de la orden</h3>
+    <ul id="listaAdvertenciasOC"></ul>
+    <div>
+      <button class="boton-accion" onclick="cerrarAdvertenciasModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
 
 <script>
 async function cargarOrdenesCompra() {
@@ -116,8 +102,8 @@ tr.innerHTML = `
   <td>${new Date(oc.fechaOrden).toLocaleDateString()}</td>
   <td>$${oc.totalPagar.toFixed(2)}</td>
   <td class="acciones-col">
-    <button onclick="verDetalles(${oc.nOrdenCompra})">📓 Ver detalles</button>
-    <button onclick="cambiarEstado(${oc.nOrdenCompra})" style="color: blue;">➡️ Cambiar estado</button>
+    <button class="boton-accion" onclick="verDetalles(${oc.nOrdenCompra})">📓 Ver detalles</button>
+    <button class="boton-accion" onclick="cambiarEstado(${oc.nOrdenCompra})">➡️ Cambiar estado</button>
   </td>`;
 
     tbody.appendChild(tr);

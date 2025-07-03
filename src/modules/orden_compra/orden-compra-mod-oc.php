@@ -8,30 +8,23 @@ include __DIR__ . '/../../tabs/orden-compra-tabs.php';
 
 <?php if ($action === 'mod-oc'): ?>
 
-<style>
-  .selected-row { background-color: #c8f7c5; font-weight: bold; }
-  .editable { cursor: pointer; }
-  .disabled-articulo { color: gray; pointer-events: none; opacity: 0.6; }
-  .articulo-guardado { font-size: 0.8em; color: green; margin-left: 0.5em; }
-</style>
+<div class="contenedor-ordenes-compra">
 
-<div style="height: calc(100vh - 200px); display: flex; flex-direction: column; border: 1px solid #ccc; border-radius: 6px; padding: 1em; background-color: #fdfdfd; box-shadow: 0 0 10px rgba(0,0,0,0.05); margin-top: 1em; margin-bottom: 1em;">
-
-  <div style="display: flex; gap: 1em; flex: 1; overflow-y: auto;">
+  <div class="contenedor-flex">
     
-    <div style="width: 25%; border-right: 1px solid #ccc; padding-right: 1em;">
+    <div class="columna">
       <h3>Órdenes Pendientes</h3>
-      <ul id="listaOrdenesPendientes" style="list-style: none; padding: 0;"></ul>
+      <ul id="listaOrdenesPendientes" class="lista-articulos"></ul>
     </div>
 
-    <div style="width: 50%;">
+    <div class="columna">
       <h3>Detalles de Orden</h3>
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5em;">
-        <div id="infoProveedorActual" style="font-size: 0.95em; font-weight: bold; color: #333;"></div>
-        <button id="btnCambiarProveedor" type="button" style="padding: 0.4em 0.8em; font-size: 0.9em; cursor: pointer;">Cambiar proveedor</button>
+      <div class="header-detalles-orden">
+        <div id="infoProveedorActual" class="info-proveedor"></div>
+        <button id="btnCambiarProveedor" type="button" class="boton-accion ">Cambiar proveedor</button>
       </div>
       <form id="formDetallesOrden">
-        <table border="1" cellspacing="0" cellpadding="6" style="width: 100%; text-align: left;">
+        <table class="tabla-base">
           <thead>
             <tr>
               <th>Nombre Artículo</th>
@@ -42,14 +35,14 @@ include __DIR__ . '/../../tabs/orden-compra-tabs.php';
           </thead>
           <tbody id="tablaDetallesEditar"></tbody>
         </table>
-        <button id="btnGuardarCambios" type="submit" style="margin-top: 15px; font-weight: bold; display: none;">Guardar cambios</button>
+        <button id="btnGuardarCambios" type="submit" class="boton-accion">Guardar cambios</button>
       </form>
-      <div id="mensajeAdvertencias" style="margin-top: 1em; color: darkred;"></div>
+      <div id="mensajeAdvertencias"  class="mensaje-advertencias"></div>
     </div>
 
-    <div style="width: 25%; border-left: 1px solid #ccc; padding-left: 1em;">
+    <div class="columna">
       <h3>Artículos del proveedor</h3>
-      <ul id="listaArticulosProveedor" style="list-style: none; padding: 0;"></ul>
+      <ul id="listaArticulosProveedor" class="lista-articulos"></ul>
     </div>
 
   </div>
@@ -69,7 +62,7 @@ async function cargarOrdenesPendientes() {
     const li = document.createElement('li');
     li.textContent = `#${oc.nOrdenCompra} - ${oc.proveedor}`;
     li.classList.add('articulo-item'); // Aplica estilo base
-    li.style.cursor = 'pointer';
+    li.className="articulo-item";
     li.onclick = () => seleccionarOrden(oc, li); // Pasa el li
     ul.appendChild(li);
   });
@@ -128,7 +121,7 @@ detallesOrdenLocal.forEach(d => {
     <td>${d.nombreArticulo}${etiquetaVerde}</td>
     <td class="editable" contenteditable="true" onfocus="guardarValorOriginal(this)" onblur="actualizarCantidad(this, ${d.idArticulo})">${d.cantidad}</td>
     <td>$${d.subTotal.toFixed(2)}</td>
-    <td><button onclick="eliminarDetalle(${d.idArticulo})" ${detallesOrdenLocal.length <= 1 ? 'disabled' : ''}>❌ Eliminar</button></td>
+    <td><button class="boton-accion" onclick="eliminarDetalle(${d.idArticulo})" ${detallesOrdenLocal.length <= 1 ? 'disabled' : ''}>❌ Eliminar</button></td>
   `;
   tabla.appendChild(tr);
 });
@@ -248,14 +241,16 @@ document.getElementById('btnCambiarProveedor').addEventListener('click', async (
 
     const proveedoresFiltrados = proveedores.filter(p => p.idProveedor !== ordenSeleccionada.idProveedor);
 
-    const modal = document.createElement('div');
-    modal.id = 'modalCambiarProveedor';
-    modal.style = 'position: fixed; top: 10%; left: 15%; width: 70%; background: white; border: 1px solid #ccc; padding: 1.5em; z-index: 1000; box-shadow: 0 0 10px rgba(0,0,0,0.3); max-height: 80vh; overflow-y: auto;';
+    const modalWrapper = document.createElement('div');
+    modalWrapper.id = 'modalCambiarProveedor';
+    modalWrapper.className = 'modal';
+    const modalContent = document.createElement('div');
+    modalContent.className = 'modal-content';
 
-    modal.innerHTML = `
-      <span style="float:right; font-size: 1.5em; cursor:pointer;" onclick="document.getElementById('modalCambiarProveedor').remove()">&times;</span>
+    modalContent.innerHTML = `
+      <span class="close" onclick="document.getElementById('modalCambiarProveedor').remove()">&times;</span>
       <h3>Seleccionar nuevo proveedor</h3>
-      <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; margin-top: 1em;">
+      <table class="tabla-base">
         <thead>
           <tr>
             <th>ID Proveedor</th>
@@ -266,8 +261,9 @@ document.getElementById('btnCambiarProveedor').addEventListener('click', async (
         <tbody id="tablaProveedoresActivos"></tbody>
       </table>
     `;
-
-    document.body.appendChild(modal);
+  modalWrapper.appendChild(modalContent);
+  document.body.appendChild(modalWrapper);
+  modalWrapper.style.display = 'flex'; 
 
     const tbody = document.getElementById('tablaProveedoresActivos');
     proveedoresFiltrados.forEach(p => {
@@ -275,7 +271,7 @@ document.getElementById('btnCambiarProveedor').addEventListener('click', async (
       tr.innerHTML = `
         <td>${p.idProveedor}</td>
         <td>${p.nombreProveedor}</td>
-        <td><button class="btnSeleccionarProveedor" data-id="${p.idProveedor}" data-nombre="${encodeURIComponent(p.nombreProveedor)}">Seleccionar</button></td>
+        <td><button class="boton-accion" data-id="${p.idProveedor}" data-nombre="${encodeURIComponent(p.nombreProveedor)}">Seleccionar</button></td>
       `;
       tbody.appendChild(tr);
     });

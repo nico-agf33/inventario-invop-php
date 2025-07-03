@@ -7,22 +7,17 @@ include __DIR__ . '/../../tabs/ventas-tabs.php';
 ?>
 
 <?php if ($action === 'lista-vent-x-art'): ?>
-<style>
-  .selected-row { background-color: #c8f7c5; font-weight: bold; }
-  .articulo-item { padding: 0.5em; cursor: pointer; border-bottom: 1px solid #ccc; }
-</style>
 
-<div style="margin: 1em 0; padding: 1em; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
-  <div style="display: flex; height: calc(100vh - 180px);">
-    <div style="width: 35%; padding: 1em; border-right: 1px solid #ccc; overflow-y: auto;">
+  <div class="contenedor-lista-ventas-art">
+    <div class="columna">
       <h3>Artículos activos</h3>
-      <ul id="listaArticulosActivos" style="list-style: none; padding: 0;"></ul>
+      <ul id="listaArticulosActivos" class="lista-articulos"></ul>
     </div>
 
-    <div style="width: 65%; padding: 1em; overflow-y: auto;">
+    <div class="columna">
       <h3>Ventas del artículo</h3>
-      <div id="mensajeSinVentas" style="color: #777; font-style: italic; margin-bottom: 1em;"></div>
-      <table border="1" cellspacing="0" cellpadding="6" style="width: 100%; text-align: left;">
+      <div id="mensajeSinVentas" class="mensaje-vacio"></div>
+      <table class="tabla-base">
         <thead>
           <tr>
             <th>N° Venta</th>

@@ -9,43 +9,24 @@ include __DIR__ . '/../../tabs/orden-compra-tabs.php';
 <?php if ($action === 'lista-oc-x-art'): ?>
 <h2>Órdenes de Compra por Artículo</h2>
 
-<div style="height: calc(100vh - 250px); border: 1px solid #ccc; border-radius: 6px; padding: 1em; background-color: #fdfdfd; box-shadow: 0 0 10px rgba(0,0,0,0.05); margin-top: 1em; margin-bottom: 1em; display: flex; gap: 1em; overflow: hidden;">
+<div class="contenedor-lista-oc-x-art">
 
-  <div style="flex: 1; display: flex; flex-direction: column; border-right: 1px solid #ccc; padding-right: 1em;">
+  <div class="columna">
     <h4>Artículos</h4>
-    <ul id="listaArticulos" style="list-style: none; padding: 0; overflow-y: auto; flex: 1; margin: 0;"></ul>
+    <ul id="listaArticulos" class="lista-articulos"></ul>
   </div>
 
-  <div style="flex: 1; display: flex; flex-direction: column; border-right: 1px solid #ccc; padding-right: 1em;">
+  <div class="columna">
     <h4>Órdenes del artículo</h4>
-    <div id="ordenesPorArticulo" style="overflow-y: auto; flex: 1;"></div>
+    <div id="ordenesPorArticulo" class="lista-articulos"></div>
   </div>
 
-  <div style="flex: 1; display: flex; flex-direction: column;">
+  <div class="columna">
     <h4>Detalle Orden-Artículo</h4>
-    <div id="detalleOrdenArticulo" class="detalle-orden" style="overflow-y: auto; flex: 1;"></div>
+    <div id="detalleOrdenArticulo" class="lista-articulos"></div>
   </div>
 
 </div>
-
-<style>
-.orden-item {
-  cursor: pointer;
-  padding: 8px;
-  border: 1px solid #ccc;
-  margin-bottom: 8px;
-  background-color: #f9f9f9;
-}
-.orden-item.selected {
-  border: 2px solid green;
-  background-color: #e6ffe6;
-}
-.detalle-orden {
-  background-color: #f4f4f4;
-  border: 1px solid #ccc;
-  padding: 1em;
-}
-</style>
 
 <script>
 let articuloSeleccionado = null;

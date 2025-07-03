@@ -150,6 +150,16 @@ footer {
 .tabla-base tr:hover {
   background-color: #333;
 }
+.tabla-base td.acciones-col {
+  white-space: nowrap;
+  text-align: center;
+}
+.tabla-base td.acciones-col button {
+  padding: 0.3em 0.6em;
+  margin: 0 0.2em;
+  font-size: 0.9em;
+  cursor: pointer;
+}
 
 /* =====================
    🗂️ MAESTRO ARTÍCULOS
@@ -185,7 +195,7 @@ footer {
     overflow-y: auto;   
 }
 .modal-content h3 {
-  margin-top: 0;
+  margin-top: 2em;
   margin-bottom: 0.5em;
   font-size: 1.5em;
 }
@@ -293,6 +303,7 @@ footer {
   align-items: center;
   background-color:#004444;
   color: white;
+  margin: 1em;
   border: none;
   border-radius: 4px;
   padding: 0.5em 1em;
@@ -407,7 +418,7 @@ footer {
 .lista-articulos {
   padding: 1em;
   flex: 1;
-  border: 1px solid #555;
+  border-bottom: 1px solid #555;
   overflow-y: auto;
   background-color: black;
   color: white;
@@ -513,6 +524,9 @@ footer {
   padding: 8px;
   border: 1px solid transparent;
   margin-bottom: 4px;
+}
+.articulo-item:hover {
+  background: #333;
 }
 
 .articulo-item.selected {
@@ -658,7 +672,7 @@ footer {
   padding: 1em;
   border-radius: 6px;
   overflow-y: auto;
-  border: 1px solid #555;
+  border-right: 1px solid #555;
 }
 #formEdicionRelacionContainer form {
   margin-top: 1em;
@@ -714,6 +728,132 @@ footer {
   padding: 1em 0;
   text-align: center;
 }
-/* =======================
-   🗂️ FIN PROVEEDORES ABM
-   =======================*/
+/* ===================
+   🗂️ FIN PROVEEDORES
+   ===================*/
+/* ======================
+   🗂️ ORDENES DE COMPRA
+========================= */
+.contenedor-ordenes-compra {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 200px);
+  padding: 1em;
+  border-radius: 6px;
+  background: black;
+  color: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin-bottom: 1em;
+}
+
+.header-ordenes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.tabla-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  border-top: 1px solid #333;
+}
+.columna-lateral {
+  width: 25%;
+  border-right: 1px solid #555;
+}
+
+.columna-lateral.derecha {
+  border-left: 1px solid #555;
+  border-right: none;
+}
+.contenedor-flex {
+  display: flex;
+  gap: 1em;
+  flex: 1;
+  overflow-y: auto;
+}
+.header-detalles-orden {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5em;
+}
+.contenedor-lista-oc-x-art {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  height: calc(100vh - 250px);
+  padding: 1em;
+  border-radius: 6px;
+  background: black;
+  color: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin: 1em 0;
+  overflow: hidden;
+}
+
+/* ===================
+   🗂️ FIN ORDENES
+   ===================*/
+/* ===================
+   🗂️ VENTAS
+   ===================*/
+.contenedor-ventas-generar {
+  display: flex;
+  gap: 1em;
+  height: calc(100vh - 200px);
+  padding: 1em;
+  border-radius: 6px;
+  background: black;
+  color: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin: 1em 0;
+}
+.textarea-base {
+  width: 100%;
+  background: #111;
+  color: white;
+  border: 1px solid #555;
+  border-radius: 6px;
+  padding: 0.5em;
+  font-family: Arial, sans-serif;
+}
+.acciones-ventas {
+  text-align: center;
+  margin-top: 1em;
+}
+
+.total-venta-modal {
+  margin-top: 1em;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.acciones-modal {
+  text-align: right;
+  margin-top: 1em;
+}
+.contenedor-lista-ventas-art {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  height: calc(100vh - 200px);
+  padding: 1em;
+  border-radius: 6px;
+  background: black;
+  color: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin: 1em 0;
+  overflow: hidden;
+}
+
+/* ===================
+   🗂️ FIN VENTAS
+   ===================*/
+.mensaje-advertencias {
+  margin-top: 1em;
+  color: orange;
+  font-weight: bold;
+  line-height: 1.4;
+}
