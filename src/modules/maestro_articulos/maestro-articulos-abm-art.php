@@ -523,6 +523,9 @@
                             if (($art['stockActual'] ?? 0) <= ($art['puntoPedido'] ?? 0)) {
                                 $advertencias[] = "El stock actual está por debajo o igual al punto de pedido.";
                             }
+                            if (($art['stockActual'] ?? 0) <= ($art['stockSeguridad'] ?? 0)) {
+                                $advertencias[] = "El stock actual está por debajo o igual al stock de seguridad.";
+                            }
                         } elseif ($modelo === 'periodofijo_p') {
                             if (($art['stockActual'] ?? 0) <= ($art['stockSeguridad'] ?? 0)) {
                                 $advertencias[] = "El stock actual está por debajo o igual al stock de seguridad.";
