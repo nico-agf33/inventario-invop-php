@@ -54,6 +54,10 @@ async function seleccionarProveedor(idProv) {
   proveedorSeleccionado = idProv;
   cerrarFormEdicion();
   cargarRelacionados(idProv);
+  articuloSeleccionado = null;
+  document.querySelectorAll('#listaArticulosNoRelacionados .articulo-item').forEach(el => {
+  el.classList.remove('selected');
+  });
   cargarNoRelacionados(idProv);
   const lista = document.getElementById('listaProveedoresActivos');
   lista.querySelectorAll('li').forEach(li => {
@@ -69,15 +73,24 @@ async function cargarRelacionados(idProv) {
   lista.innerHTML = '';
   const res = await fetch(`http://localhost:5000/Proveedor/articulos-proveedor/${idProv}`);
   const data = await res.json();
-  data.forEach(art => {
-    const li = document.createElement('li');
-    li.textContent = `#${art.idArticulo} - ${art.nombreArticulo}`;
-    li.style.cursor = 'pointer';
-    li.onclick = () => mostrarFormularioEdicion(art);
+data.forEach(art => {
+  const li = document.createElement('li');
+  li.textContent = `#${art.idArticulo} - ${art.nombreArticulo}`;
+  li.style.cursor = 'pointer';
+  li.onclick = () => mostrarFormularioEdicion(art);
 
-    const btnEliminar = document.createElement('button');
-    btnEliminar.textContent = 'Eliminar';
-    btnEliminar.style.marginLeft = '1em';
+  const btnEliminar = document.createElement('button');
+  btnEliminar.textContent = 'Eliminar';
+  btnEliminar.style.marginLeft = '1em';
+
+  // NUEVA LÓGICA: si hay solo uno, desactivar botón
+  const esUnicoArticulo = data.length === 1;
+  if (esUnicoArticulo) {
+    btnEliminar.disabled = true;
+    btnEliminar.style.opacity = '0.5';
+    btnEliminar.style.cursor = 'not-allowed';
+    btnEliminar.title = 'Un proveedor activo debe tener al menos un artículo relacionado';
+  } else {
     btnEliminar.onclick = async () => {
       if (!confirm("¿Confirmar baja de relación proveedor-artículo?")) return;
       try {
@@ -99,10 +112,12 @@ async function cargarRelacionados(idProv) {
         alert("Error de red: " + err.message);
       }
     };
+  }
 
-    li.appendChild(btnEliminar);
-    lista.appendChild(li);
-  });
+  li.appendChild(btnEliminar);
+  lista.appendChild(li);
+});
+
 }
 
 function mostrarFormularioEdicion(art) {

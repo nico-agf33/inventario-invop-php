@@ -26,6 +26,10 @@ include __DIR__ . '/../../tabs/orden-compra-tabs.php';
 
     <div style="width: 50%;">
       <h3>Detalles de Orden</h3>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5em;">
+        <div id="infoProveedorActual" style="font-size: 0.95em; font-weight: bold; color: #333;"></div>
+        <button id="btnCambiarProveedor" type="button" style="padding: 0.4em 0.8em; font-size: 0.9em; cursor: pointer;">Cambiar proveedor</button>
+      </div>
       <form id="formDetallesOrden">
         <table border="1" cellspacing="0" cellpadding="6" style="width: 100%; text-align: left;">
           <thead>
@@ -102,6 +106,7 @@ async function seleccionarOrden(orden, liSeleccionado) {
 
   const validacion = await valRes.json();
   renderizarTodo();
+  actualizarEtiquetaProveedor();
   document.getElementById('btnGuardarCambios').style.display = 'inline-block';
 
   let advertencias = [...(validacion.advertenciasOC_oc || []), ...(validacion.advertenciasOC_pp || [])];
@@ -225,5 +230,94 @@ document.getElementById('formDetallesOrden').addEventListener('submit', async e 
 });
 
 document.addEventListener('DOMContentLoaded', cargarOrdenesPendientes);
+
+function actualizarEtiquetaProveedor() {
+  if (!ordenSeleccionada) return;
+  const etiqueta = document.getElementById('infoProveedorActual');
+  etiqueta.textContent = `Proveedor actual: [${ordenSeleccionada.idProveedor}] ${ordenSeleccionada.proveedor}`;
+}
+
+document.getElementById('btnCambiarProveedor').addEventListener('click', async () => {
+  try {
+    const res = await fetch('http://localhost:5000/Proveedor/activos');
+    if (!res.ok) throw new Error("No se pudieron obtener proveedores activos");
+    const proveedores = await res.json();
+
+    const modalExistente = document.getElementById('modalCambiarProveedor');
+    if (modalExistente) modalExistente.remove(); 
+
+    const proveedoresFiltrados = proveedores.filter(p => p.idProveedor !== ordenSeleccionada.idProveedor);
+
+    const modal = document.createElement('div');
+    modal.id = 'modalCambiarProveedor';
+    modal.style = 'position: fixed; top: 10%; left: 15%; width: 70%; background: white; border: 1px solid #ccc; padding: 1.5em; z-index: 1000; box-shadow: 0 0 10px rgba(0,0,0,0.3); max-height: 80vh; overflow-y: auto;';
+
+    modal.innerHTML = `
+      <span style="float:right; font-size: 1.5em; cursor:pointer;" onclick="document.getElementById('modalCambiarProveedor').remove()">&times;</span>
+      <h3>Seleccionar nuevo proveedor</h3>
+      <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; margin-top: 1em;">
+        <thead>
+          <tr>
+            <th>ID Proveedor</th>
+            <th>Nombre</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody id="tablaProveedoresActivos"></tbody>
+      </table>
+    `;
+
+    document.body.appendChild(modal);
+
+    const tbody = document.getElementById('tablaProveedoresActivos');
+    proveedoresFiltrados.forEach(p => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${p.idProveedor}</td>
+        <td>${p.nombreProveedor}</td>
+        <td><button class="btnSeleccionarProveedor" data-id="${p.idProveedor}" data-nombre="${encodeURIComponent(p.nombreProveedor)}">Seleccionar</button></td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    document.querySelectorAll('.btnSeleccionarProveedor').forEach(btn => {
+      btn.onclick = () => {
+        const id = parseInt(btn.dataset.id);
+        const nombre = decodeURIComponent(btn.dataset.nombre);
+        seleccionarNuevoProveedor(id, nombre);
+      };
+    });
+
+  } catch (err) {
+    alert("❌ Error al cargar proveedores: " + err.message);
+  }
+});
+
+async function seleccionarNuevoProveedor(idProveedor, nombreProveedor) {
+  if (!ordenSeleccionada) return;
+  try {
+    const res = await fetch(`http://localhost:5000/OrdenCompra/ordenCompra/${ordenSeleccionada.nOrdenCompra}/cambiar-proveedor/${idProveedor}`, {
+      method: 'PUT'
+    });
+
+    const contentType = res.headers.get("content-type");
+    const data = contentType && contentType.includes("application/json")
+      ? await res.json()
+      : await res.text();
+
+    if (!res.ok) throw new Error(data.error || data || "No se pudo cambiar el proveedor");
+
+    alert(data.mensaje || "Proveedor actualizado correctamente");
+    ordenSeleccionada.idProveedor = idProveedor;
+    ordenSeleccionada.proveedor = nombreProveedor;
+    document.getElementById('modalCambiarProveedor').remove();
+    actualizarEtiquetaProveedor();
+
+    await seleccionarOrden(ordenSeleccionada, document.querySelector('.selected'));
+  } catch (err) {
+    alert("❌ Error al cambiar proveedor: " + err.message);
+  }
+}
+
 </script>
 <?php endif; ?>
