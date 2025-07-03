@@ -6,13 +6,6 @@
     include __DIR__ . '/../../tabs/maestro-articulos-tabs.php';
     ?>
 
-    <style>
-    .modal-content select {
-    position: relative;
-    z-index: 1000;
-    }
-    </style>
-
     <?php if ($action === 'lista-art-faltantes'): ?>
             <h2>Lista de Articulos Faltantes</h2>
         <div id="listaFaltantesContainer" style="margin-top: 1em;">

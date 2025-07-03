@@ -8,7 +8,7 @@ function activeTab($tabName, $currentAction) {
 $action = $_GET['action'] ?? 'abm-prov';
 ?>
 
-<div style="margin: 1em 0; overflow-x: auto; white-space: nowrap; padding-bottom: 0.5em; border-bottom: 1px solid #ccc;">
+<div class="tabs-container">
     <a href="index.php?mod=proveedores&action=abm-prov" <?= activeTab('abm-prov', $action) ?> style="display: inline-block; margin-right: 1em;">ABM Proveedores</a>
     <a href="index.php?mod=proveedores&action=prov-art" <?= activeTab('prov-art', $action) ?> style="display: inline-block; margin-right: 1em;">Gestión proveedor-artículo</a>
     <a href="index.php?mod=proveedores&action=listado-art-x-prov" <?= activeTab('listado-art-x-prov', $action) ?> style="display: inline-block; margin-right: 1em;">Lista de artículos por proveedor</a>

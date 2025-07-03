@@ -8,7 +8,7 @@ include __DIR__ . '/../../tabs/proveedores-tabs.php';
 
 <?php if ($action === 'restaurar-susp'): ?>
   <h3>Proveedores Suspendidos</h3>
-  <ul id="listaProveedoresSuspendidos" style="list-style:none; padding:0;"></ul>
+  <ul id="listaProveedoresSuspendidos" class="lista-suspendidos"></ul>
 
   <script>
     async function cargarProveedoresSuspendidos() {
@@ -26,25 +26,15 @@ include __DIR__ . '/../../tabs/proveedores-tabs.php';
 
         data.forEach(prov => {
           const li = document.createElement('li');
-          li.style.display = 'flex';
-          li.style.alignItems = 'center';
-          li.style.justifyContent = 'space-between';
-          li.style.padding = '8px 0';
-          li.style.borderBottom = '1px solid #ccc';
+          li.className = 'suspendido-item';
 
           const texto = document.createElement('span');
           texto.textContent = `#${prov.idProveedor} - ${prov.nombreProveedor}`;
 
           const btnRestaurar = document.createElement('button');
+          btnRestaurar.className = 'boton-accion';
           btnRestaurar.title = 'Restaurar proveedor';
-          btnRestaurar.style.cursor = 'pointer';
-          btnRestaurar.style.border = 'none';
-          btnRestaurar.style.background = 'transparent';
-          btnRestaurar.style.color = 'green';
-          btnRestaurar.style.fontSize = '20px';
-
-          // Icono flecha arriba (unicode) - podés cambiar por svg o icono que uses
-          btnRestaurar.innerHTML = '&#x25B2;';
+          btnRestaurar.innerHTML = '&#x25B2; Restaurar';
 
           btnRestaurar.onclick = async () => {
             if (!confirm(`¿Restaurar proveedor ${prov.nombreProveedor}?`)) return;

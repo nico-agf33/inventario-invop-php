@@ -6,23 +6,16 @@
     include __DIR__ . '/../../tabs/maestro-articulos-tabs.php';
     ?>
 
-    <style>
-    .modal-content select {
-    position: relative;
-    z-index: 1000;
-    }
-    </style>
-
     <?php if ($action === 'lista-prov-x-art'): ?>
         <h2>Lista de Proveedores por Artículo</h2>
 
-        <div style="display: flex; gap: 2em; margin-top: 1em; min-height: 400px;">
-            <div style="flex: 1; border: 1px solid #ccc; padding: 1em; overflow-y: auto;">
+        <div class="lista-proveedores-container">
+            <div class="lista-articulos">
                 <h4>Artículos</h4>
-                <ul id="listaArticulos" style="list-style: none; padding: 0; margin: 0;"></ul>
+                <ul id="listaArticulos"></ul>
             </div>
 
-            <div style="flex: 2; border: 1px solid #ccc; padding: 1em; overflow-y: auto;">
+            <div class="info-proveedores">
                 <h4>Proveedores</h4>
                 <div id="infoProveedores">
                     <p>Seleccionar un artículo para ver sus proveedores</p>

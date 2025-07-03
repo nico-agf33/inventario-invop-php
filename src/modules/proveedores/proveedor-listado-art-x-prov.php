@@ -7,30 +7,32 @@ include __DIR__ . '/../../tabs/proveedores-tabs.php';
 ?>
 
 <?php if ($action === 'listado-art-x-prov'): ?>
-<div style="display: flex; height: calc(100vh - 160px); gap: 1em;">
+<div class="proveedor-articulos-container">
 
-  <div style="flex: 1; overflow-y: auto; border-right: 1px solid #ccc; padding-right: 1em;">
+  <div  class="columna">
     <h4>Proveedores activos</h4>
-    <ul id="listaProveedoresActivos" style="list-style: none; padding: 0;"></ul>
+    <ul id="listaProveedoresActivos" class="lista-articulos"></ul>
   </div>
 
-  <div style="flex: 2; overflow-y: auto; padding-left: 1em;">
+  <div class="columna columna-articulos-relacionados">
     <h4>Artículos relacionados</h4>
-    <table id="tablaArticulosProveedor" style="width: 100%; border-collapse: collapse;">
+    <div class="table-wrapper">
+    <table id="tablaArticulosProveedor" class="tabla-base">
       <thead>
-        <tr style="border-bottom: 2px solid #ccc;">
-          <th style="text-align:left; padding: 8px;">ID Artículo</th>
-          <th style="text-align:left; padding: 8px;">Nombre Artículo</th>
-          <th style="text-align:right; padding: 8px;">Precio Unitario</th>
-          <th style="text-align:right; padding: 8px;">Tiempo Entrega (días)</th>
-          <th style="text-align:right; padding: 8px;">Costo Pedido</th>
-          <th style="text-align:center; padding: 8px;">Predeterminado</th>
+        <tr>
+          <th>ID Artículo</th>
+          <th>Nombre Artículo</th>
+          <th>Precio Unitario</th>
+          <th>Tiempo Entrega (días)</th>
+          <th>Costo Pedido</th>
+          <th>Predeterminado</th>
         </tr>
       </thead>
       <tbody>
 
       </tbody>
     </table>
+    </div>
   </div>
 </div>
 

@@ -9,22 +9,22 @@ include __DIR__ . '/../../tabs/proveedores-tabs.php';
 ?>
 
 <?php if ($action === 'prov-art'): ?>
-<div style="display: flex; height: calc(100vh - 160px); gap: 1em;">
+<div class="proveedor-articulos-container">
 
-  <div style="flex: 1; overflow-y: auto; border-right: 1px solid #ccc; padding-right: 1em;">
+  <div class="columna">
     <h4>Proveedores activos</h4>
-    <ul id="listaProveedoresActivos" style="list-style: none; padding: 0;"></ul>
+    <ul id="listaProveedoresActivos" class="lista-articulos"></ul>
   </div>
 
-  <div style="flex: 2; overflow-y: auto; border-right: 1px solid #ccc; padding: 0 1em;">
+  <div class="columna">
     <h4>Artículos relacionados</h4>
-    <ul id="listaArticulosRelacionados" style="list-style: none; padding: 0;"></ul>
+    <ul id="listaArticulosRelacionados" class="lista-articulos"></ul>
     <div id="formEdicionRelacionContainer"></div>
   </div>
 
-  <div style="flex: 1; overflow-y: auto; padding-left: 1em;">
+  <div class="columna">
     <h4>Artículos no relacionados</h4>
-    <ul id="listaArticulosNoRelacionados" style="list-style: none; padding: 0;"></ul>
+    <ul id="listaArticulosNoRelacionados" class="lista-articulos"></ul>
   </div>
 </div>
 

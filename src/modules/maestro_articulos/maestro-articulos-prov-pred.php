@@ -6,35 +6,21 @@
     include __DIR__ . '/../../tabs/maestro-articulos-tabs.php';
     ?>
 
-    <style>
-    .modal-content select {
-    position: relative;
-    z-index: 1000;
-    }
-    </style>
-
     <?php if ($action === 'prov-pred'): ?>
-    <div style="display: flex; gap: 2em; margin-top: 1em; min-height: 400px;">
+    <div class="prov-pred-container">
 
-        <div style="flex: 1; border: 1px solid #ccc; padding: 1em;">
+        <div class="lista-articulos">
             <h4>Artículos</h4>
-            <ul id="listaArticulos" style="list-style: none; padding: 0;"></ul>
+            <ul id="listaArticulos"></ul>
         </div>
 
-        <div style="flex: 2; border: 1px solid #ccc; padding: 1em;">
+        <div class="info-proveedores">
             <h4>Proveedores</h4>
             <div id="infoProveedores">
                 <p>Seleccioná un artículo para ver sus proveedores.</p>
             </div>
         </div>
     </div>
-
-    <style>
-    #listaArticulos li.selected {
-        border: 2px solid green;
-        background-color: #e6ffe6;
-    }
-    </style>
 
     <script>
     document.addEventListener('DOMContentLoaded', async () => {

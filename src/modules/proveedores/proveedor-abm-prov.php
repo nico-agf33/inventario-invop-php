@@ -8,109 +8,17 @@ include __DIR__ . '/../../tabs/proveedores-tabs.php';
 
 <?php if ($action === 'abm-prov'): ?>
     <h3>Gestión de Proveedores</h3>
+<div class="table-header">
+  <div class="acciones">
+    <button onclick="abrirModalProveedor()" class="boton-accion">➕ Crear proveedor</button>
+  </div>
+</div>
 
-    <button onclick="abrirModalProveedor()" style="margin-bottom: 1em;">➕ Crear proveedor</button>
-
-<style>
-.modal-content.alta-proveedor {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 1em;
-  padding: 1em;
-  max-width: 90vw;   
-  max-height: 90vh;  
-  margin: auto;
-  overflow: auto;  
-}
-
-.modal-content {
-  background: white;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 1em;
-  padding: 1em;
-  max-width: 90vw; 
-  max-height: 90vh; 
-  overflow: hidden;
-  box-sizing: border-box;
-}
-
-.modal-content .columna {
-  flex: 1;
-  min-width: 25%;   
-  background: #f9f9f9;
-  padding: 1em;
-  border-radius: 6px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-  max-height: 100%; 
-  overflow-y: auto; 
-  display: flex;
-  flex-direction: column;
-}
-
-.modal-content .columna.columna-detalle-articulo {
-  overflow: visible !important;
-  max-height: none !important;
-  height: auto !important;
-  flex-shrink: 0;
-  min-width: 28%;
-  display: flex;
-  flex-direction: column;
-}
-
-#detalleArticuloSeleccionado {
-  overflow: visible !important;
-  max-height: none !important;
-}
-
-.modal-content .columna h4,
-.modal-content .columna h5 {
-  margin-top: 0;
-}
-
-.articulo-item {
-  padding: 0.5em;
-  cursor: pointer;
-  border-bottom: 1px solid #ccc;
-}
-
-.articulo-item.disabled {
-  color: #999;
-  pointer-events: none;
-}
-
-.articulo-item.selected {
-  background-color: #cce5ff;
-}
-
-.articulo-resumen {
-  background: #e6ffe6;
-  padding: 0.4em;
-  margin-bottom: 0.3em;
-  border-radius: 4px;
-  position: relative;
-}
-
-.articulo-resumen button {
-  position: absolute;
-  right: 0.4em;
-  top: 0.4em;
-  background: transparent;
-  border: none;
-  color: red;
-  cursor: pointer;
-  font-size: 1em;
-}
-</style>
-
-<div id="modalCrearProveedorCompleto" class="modal" style="display:none;">
+<div id="modalCrearProveedorCompleto" class="modal">
   <div class="modal-content alta-proveedor">
     <span class="close" onclick="cerrarModalCrearProveedorCompleto()">&times;</span>
 
-    <div class="columna">
+    <div class="columna columna-datos-proveedor">
       <h4>Datos del proveedor</h4>
       <form id="formNuevoProveedor">
         <label>Nombre:</label><br>
@@ -121,13 +29,13 @@ include __DIR__ . '/../../tabs/proveedores-tabs.php';
         <input type="email" name="mail" required><br>
         <label>Teléfono:</label><br>
         <input type="text" name="telefono" required><br><br>
-        <button type="submit">Guardar proveedor con artículos</button>
+        <button class="boton-accion" type="submit">Guardar proveedor con artículos</button>
       </form>
     </div>
 
-    <div class="columna">
+    <div class="columna columna-lista-articulos">
       <h4>Artículos activos</h4>
-      <ul id="listaArticulosAsignables"></ul>
+      <ul class="articulo-item" id="listaArticulosAsignables"></ul>
     </div>
 
 <div class="columna columna-detalle-articulo">
@@ -135,17 +43,16 @@ include __DIR__ . '/../../tabs/proveedores-tabs.php';
   <div id="detalleArticuloSeleccionado"></div>
 </div>
 
-    <div class="columna">
+    <div class="columna columna-asignados">
       <h4>Artículos asignados</h4>
-      <div id="articulosAsignados"></div>
+      <div class="articulo-resumen" id="articulosAsignados"></div>
     </div>
-
   </div>
 </div>
 
-    <table border="1" cellpadding="5" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+    <table class="tabla-base">
         <thead>
-            <tr style="background-color: #eee;">
+            <tr>
                 <th>ID</th>
                 <th>Nombre</th>
                 <th>Dirección</th>

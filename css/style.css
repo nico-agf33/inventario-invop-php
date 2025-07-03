@@ -102,7 +102,7 @@ nav a.activo-nav {
   background-color: #e6ffe6;
 }
 .tab-link.active-tab-module {
-  background-color: #008b8b;  /* turquesa oscuro */
+  background-color: #008b8b; 
   color: white;
   border: 1px solid #006666;
 }
@@ -128,7 +128,34 @@ footer {
     box-sizing: border-box;
     margin-top: 5em;
 }
-/*modal*/
+.tabla-base {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+}
+
+.tabla-base th, .tabla-base td {
+  border: 1px solid #555;
+  padding: 8px 12px;
+}
+
+.tabla-base thead {
+  background-color: #111;
+}
+
+.tabla-base tr:nth-child(even) {
+  background-color: #222;
+}
+
+.tabla-base tr:hover {
+  background-color: #333;
+}
+
+/* =====================
+   🗂️ MAESTRO ARTÍCULOS
+   ===================== */
+
+/* Modales */
 .modal {
     display: none;
     position: fixed;
@@ -143,6 +170,9 @@ footer {
 }
 
 .modal-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
     background: #111;
     color: white;
     padding: 0.5em;
@@ -169,6 +199,7 @@ footer {
 
 .modal-content input[type="text"],
 .modal-content input[type="number"],
+.modal-content input[type="email"],
 .modal-content select {
   width: 100%;
   padding: 0.4em;
@@ -204,20 +235,28 @@ footer {
 
 .modal-content .close {
   color: white;
+  position: absolute;
   float: right;
-  font-size: 28px;
+  top: 0.4em;
+  right: 0.8em;
+  font-size: 30px;
   font-weight: bold;
   cursor: pointer;
 }
-
 .modal-content .close:hover {
   color: #008b8b;
 }
 .close{
   float: right;
-  font-size: 28px;
+  position: absolute;
+  font-size: 30px;
   cursor: pointer;
 }
+/* Modal Advertencia */
+.modal-content.advertencia {
+  border-left: 6px solid red;
+}
+/* Tablas dentro de modales y listas */
 .table-wrapper {
   max-height: calc(100vh - 200px);
   border: 1px solid #555;
@@ -239,16 +278,20 @@ footer {
   border: 1px solid #555;
   padding: 8px 12px;
 }
-
+/* Header de tabla con acciones */
 .table-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0.5em;
 }
+.acciones button {
+  margin-left: 1em;
+}
 .boton-accion {
+  display: inline-flex;
+  align-items: center;
   background-color:#004444;
-;
   color: white;
   border: none;
   border-radius: 4px;
@@ -260,10 +303,34 @@ footer {
 .boton-accion:hover {
   background-color: #006666;
 }
-
-.acciones button {
-  margin-left: 1em;
+/* Flex para inputs lado a lado */
+.flex-row {
+  display: flex;
+  gap: 20px; 
+  align-items: flex-end; 
+  flex-wrap: wrap; 
 }
+
+.flex-row label {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Botón advertencia */
+.boton-advertencia {
+  background: none;
+  border: none;
+  color: red;
+  font-size: 1.2em;
+  cursor: pointer;
+  padding-left: 4px;
+  vertical-align: middle;
+}
+
+.boton-advertencia:hover {
+  color: #ff5555;
+}
+     
 .modal-content.alta-proveedor {
   display: flex;
   flex-direction: column;
@@ -288,7 +355,98 @@ footer {
   padding-right: 10px;
   box-sizing: border-box;
 }
-/*Articulos*/
+/* Proveedores por Artículo y Proveedor Predeterminado */
+.prov-pred-container {
+  display: flex;
+  gap: 2em;
+  margin-top: 1em;
+  min-height: 400px;
+}
+
+.info-proveedores table {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+}
+
+.info-proveedores thead {
+  background-color: #111;
+}
+
+.info-proveedores th,
+.info-proveedores td {
+  border: 1px solid #555;
+  padding: 8px 12px;
+}
+
+.info-proveedores thead tr {
+  background-color: #333;
+}
+
+.info-proveedores tr:nth-child(even) {
+  background-color: #222;
+}
+
+.info-proveedores tr:hover {
+  background-color: #333;
+}
+
+.info-proveedores {
+  flex: 2;
+  border: 1px solid #555;
+  padding: 1em;
+  overflow-y: auto;
+  background-color: black;
+  color: white;
+}
+
+.info-proveedores h4 {
+  margin-top: 0;
+}
+/* Lista Artículos */
+.lista-articulos {
+  padding: 1em;
+  flex: 1;
+  border: 1px solid #555;
+  overflow-y: auto;
+  background-color: black;
+  color: white;
+}
+
+.lista-articulos h4 {
+  margin-top: 0;
+}
+
+.lista-articulos ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lista-articulos li {
+  cursor: pointer;
+  margin: 0.5em 0;
+  padding: 0.5em;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.lista-articulos li:hover {
+  background-color: #111;
+}
+
+.lista-articulos li.selected {
+  background-color: #d4edda;  
+  color: #111;
+}
+
+.lista-proveedores-container {
+  display: flex;
+  gap: 2em;
+  margin-top: 1em;
+  min-height: 400px;
+}
+
 .tabs-container {
   display: flex;
   flex-wrap: wrap; 
@@ -361,7 +519,7 @@ footer {
   border: 2px solid green;
   background-color: #04002b; 
 }
-
+/* Flex para formularios */
 .flex-row {
     display: flex;
     gap: 20px; 
@@ -372,7 +530,7 @@ footer {
     display: flex;
     flex-direction: column;
 }
-
+/* Botón advertencia */
 .boton-advertencia {
   background: none;
   border: none;
@@ -390,3 +548,172 @@ footer {
 .modal-content.advertencia {
   border-left: 6px solid red;
 }
+/* =========================
+   🗂️ FIN MAESTRO ARTÍCULOS
+   =========================*/
+/* ===============
+   🗂️ PROVEEDORES
+================== */
+.modal-content.alta-proveedor {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1em;
+  padding: 1em;
+  max-width: 90vw;
+  max-height: 90vh;
+  margin: auto;
+  overflow: auto;
+  background: #111; 
+  color: white;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.modal-content .columna {
+  flex: 1;
+  min-width: 25%;
+  background: #1b1b1b;
+  padding: 1em;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.3);
+  max-height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-content .columna.columna-detalle-articulo {
+  overflow: visible !important;
+  max-height: none !important;
+  flex-shrink: 0;
+  min-width: 28%;
+}
+
+.articulo-item {
+  padding: 0.5em;
+  cursor: pointer;
+  border-bottom: 1px solid #333;
+}
+
+.articulo-item.disabled {
+  color: #999;
+  pointer-events: none;
+}
+
+.articulo-item.selected {
+  background-color: #008b8b; 
+}
+
+.articulo-resumen {
+  background: #1b1b1b;
+  color: white;
+  padding: 0.4em;
+  margin-bottom: 0.3em;
+  border-radius: 4px;
+  position: relative;
+}
+
+.articulo-resumen button {
+  position: absolute;
+  right: 0.4em;
+  top: 0.4em;
+  background: transparent;
+  border: none;
+  color: red;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.tabla-base {
+  width: 100%;
+  border-collapse: collapse;
+  color: white;
+}
+
+.tabla-base th, .tabla-base td {
+  border: 1px solid #555;
+  padding: 8px 12px;
+}
+
+.tabla-base thead {
+  background-color: #111;
+}
+
+.tabla-base tr:nth-child(even) {
+  background-color: #222;
+}
+
+.tabla-base tr:hover {
+  background-color: #333;
+}
+.proveedor-articulos-container {
+  display: flex;
+  height: calc(100vh - 160px);
+  gap: 1em;
+}
+.columna {
+  flex: 1;
+  background: black;
+  padding: 1em;
+  border-radius: 6px;
+  overflow-y: auto;
+  border: 1px solid #555;
+}
+#formEdicionRelacionContainer form {
+  margin-top: 1em;
+}
+
+#formEdicionRelacionContainer input[type="number"] {
+  width: 100%;
+  background: #555;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4em;
+  color: white;
+}
+
+#formEdicionRelacionContainer button {
+  margin-right: 0.5em;
+  background-color: #004444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#formEdicionRelacionContainer button:hover {
+  background-color: #006666;
+}
+.proveedor-articulos-container {
+  display: flex;
+  height: calc(100vh - 160px);
+  gap: 1em;
+}
+.columna-articulos-relacionados {
+  flex: 2;
+}
+.lista-suspendidos {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suspendido-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #555;
+}
+
+.mensaje-vacio {
+  color: #999;
+  padding: 1em 0;
+  text-align: center;
+}
+/* =======================
+   🗂️ FIN PROVEEDORES ABM
+   =======================*/

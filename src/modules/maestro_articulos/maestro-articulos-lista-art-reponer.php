@@ -6,13 +6,6 @@
     include __DIR__ . '/../../tabs/maestro-articulos-tabs.php';
     ?>
 
-    <style>
-    .modal-content select {
-    position: relative;
-    z-index: 1000;
-    }
-    </style>
-
     <?php if ($action === 'lista-art-reponer'): ?>
         <h2>Lista de Articulos a Reponer</h2>
         <div id="listaReponerContainer" style="margin-top: 1em;">
