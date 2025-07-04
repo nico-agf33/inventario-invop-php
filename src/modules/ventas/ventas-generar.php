@@ -102,16 +102,30 @@ function renderizarArticulosSeleccionados() {
     li.innerHTML = `
       <div>
         <strong>ID:</strong> ${a.idArticulo}<br>
-        <label class="label">Cantidad: </label>
-        <input class="input" type="number" value="${a.cantidadArticulo}" min="1" max="999999" step="1" onchange="actualizarCantidad(${i}, this.value)">
-        <button onclick="eliminarArticulo(${i})" class="boton-accion" >Quitar</button>
-        <button onclick="verificarStock(${a.idArticulo}, ${a.cantidadArticulo})"  class="boton-accion">Verificar stock</button>
+        <label>Cantidad: </label>
+        <input id="inputCantidad-${a.idArticulo}" type="number" value="${a.cantidadArticulo}" min="1" max="999999" step="1"
+               onchange="actualizarCantidad(${i}, this.value)">
+        <button onclick="eliminarArticulo(${i})" style="margin-left: 10px;">Quitar</button>
+        <button onclick="verificarStockDesdeInput(${a.idArticulo})" style="margin-left: 10px;">Verificar stock</button>
       </div>
       <hr style="margin: 8px 0;">
     `;
     ul.appendChild(li);
   });
 }
+
+function verificarStockDesdeInput(idArticulo) {
+  const input = document.getElementById(`inputCantidad-${idArticulo}`);
+  const cantidad = parseInt(input.value);
+
+  if (!cantidad || cantidad <= 0) {
+    alert("⚠️ Cantidad inválida");
+    return;
+  }
+
+  verificarStock(idArticulo, cantidad);
+}
+
 
 function actualizarCantidad(index, valor) {
   const cantidad = Number(valor);
@@ -123,12 +137,12 @@ function actualizarCantidad(index, valor) {
   }
 }
 
-async function verificarStock(idArticulo, cantidadArticulo) {
+async function verificarStock(idArticulo, cantidad) {
   try {
     const res = await fetch(`http://localhost:5000/api/Ventas/validar-stock`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ idArticulo, cantidadArticulo })
+      body: JSON.stringify({ idArticulo, cantidad })
     });
 
     const contentType = res.headers.get("content-type");
