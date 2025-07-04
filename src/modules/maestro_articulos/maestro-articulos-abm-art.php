@@ -332,38 +332,46 @@
     }
 
     async function calcularParametros() {
-        if (!confirm("¿Confirma que desea recalcular parámetros?")) return;
+    if (!confirm("¿Confirma que desea recalcular parámetros?")) return;
 
-        try {
-            const resp = await fetch('http://localhost:5000/MaestroArticulos/modeloInventario/calc-mod-inv');
+    try {
+        const resp = await fetch('http://localhost:5000/MaestroArticulos/modeloInventario/calc-mod-inv');
 
-            if (!resp.ok) {
-                const msg = await resp.text();
-                alert("Error en el cálculo: " + msg);
-                return;
-            }
-
-            const contentType = resp.headers.get('content-type');
-
-            if (contentType && contentType.includes('application/json')) {
-                const datos = await resp.json();
-
-                if (Array.isArray(datos) && datos.length === 0) {
-                    alert("No se encontraron artículos para calcular, o ninguno de los existentes posee proveedor predeterminado");
-                } else {
-                    alert("Parámetros de inventario calculados exitosamente.");
-                }
-
-            } else {
-                const texto = await resp.text();
-                alert("Resultado: " + texto);
-            }
-
-            location.reload();
-
-        } catch (err) {
-            alert("Error de red: " + err.message);
+        if (!resp.ok) {
+        const msg = await resp.text();
+        alert("Error en el cálculo: " + msg);
+        return;
         }
+
+        const contentType = resp.headers.get('content-type');
+
+        if (contentType && contentType.includes('application/json')) {
+        const datos = await resp.json();
+
+        if (Array.isArray(datos) && datos.length === 0) {
+            alert("No se encontraron artículos para calcular, o ninguno de los existentes posee proveedor predeterminado");
+        } else {
+
+            const sinProveedor = datos.filter(d => !d.proveedor || d.proveedor.trim() === '');
+
+            if (sinProveedor.length > 0) {
+            const lista = sinProveedor.map(d => `• #${d.idArticulo} - ${d.nombreArticulo}`).join('\n');
+            alert("⚠️ Los siguientes artículos no cuentan con proveedor predeterminado:\n\n" + lista);
+            }
+
+            alert("✅ Parámetros de inventario calculados exitosamente.");
+        }
+
+        } else {
+        const texto = await resp.text();
+        alert("Resultado: " + texto);
+        }
+
+        location.reload();
+
+    } catch (err) {
+        alert("❌ Error de red: " + err.message);
+    }
     }
 
     function abrirModalCrearArticulo() {
