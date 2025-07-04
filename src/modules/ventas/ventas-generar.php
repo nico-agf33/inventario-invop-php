@@ -7,60 +7,31 @@ include __DIR__ . '/../../tabs/ventas-tabs.php';
 ?>
 
 <?php if ($action === 'generar'): ?>
-<style>
-  .venta-grid {
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
-    gap: 1em;
-    margin: 1em 0;
-    min-height: 60vh;
-  }
-  .venta-column {
-    border: 1px solid #ccc;
-    padding: 1em;
-    background-color: #f9f9f9;
-    overflow-y: auto;
-  }
-  #modalResumenVenta {
-    display: none;
-    position: fixed;
-    top: 10%;
-    left: 12.5%;
-    width: 75%;
-    max-height: 80vh;
-    background-color: white;
-    border: 2px solid #333;
-    padding: 1em;
-    overflow-y: auto;
-    z-index: 9999;
-  }
-</style>
 
 <h2>Generar Venta</h2>
-<div class="venta-grid">
-  <div class="venta-column">
+<div class="contenedor-ventas-generar">
+  <div class="columna">
     <h4>Descripción de venta</h4>
-    <textarea id="descripcionVenta" rows="8" style="width: 100%;"></textarea>
+    <textarea id="descripcionVenta" rows="8" class="textarea-base"></textarea>
   </div>
 
-  <div class="venta-column">
+  <div class="columna">
     <h4>Artículos disponibles</h4>
-    <ul id="listaArticulosDisponibles" style="list-style: none; padding: 0;"></ul>
+    <ul id="listaArticulosDisponibles" class="articulo-item"></ul>
   </div>
 
-  <div class="venta-column">
+  <div class="columna">
     <h4>Artículos seleccionados</h4>
-    <ul id="articulosSeleccionados" style="list-style: none; padding: 0;"></ul>
+    <ul id="articulosSeleccionados" class="articulo-item"></ul>
   </div>
 </div>
-
-<div style="text-align: center; margin-top: 1em;">
-  <button onclick="previsualizarVenta()">Registrar Venta</button>
+<div style="text-align: center;">
+  <button class="boton-accion" onclick="previsualizarVenta()">Registrar Venta</button>
 </div>
-
-<div id="modalResumenVenta" style="display:none; max-width: 600px; margin: auto; background: white; border: 2px solid #333; padding: 1em; z-index: 9999; position: fixed; top: 20%; left: 25%;">
+<div id="modalResumenVenta" class="modal">
+  <div class="modal-content">
   <h3 id="resumenDescripcion"></h3>
-  <table border="1" cellspacing="0" cellpadding="6" style="width: 100%; margin-top: 1em;">
+  <table class="tabla-base">
     <thead>
       <tr>
         <th>ID Artículo</th>
@@ -71,17 +42,18 @@ include __DIR__ . '/../../tabs/ventas-tabs.php';
     </thead>
     <tbody id="resumenDetallesVenta"></tbody>
   </table>
-  <div id="totalVentaModal" style="margin-top: 1em; font-weight: bold; font-size: 1.1em;">
+  <div id="totalVentaModal" class="articulo-item">
     Total: $0.000
   </div>
 
-  <div id="advertenciasVentaModal" style="background-color: #cce5ff; border: 1px solid #004085; padding: 10px; color: #004085; border-radius: 4px; max-height: 150px; overflow-y: auto; margin-top: 1em;">
+  <div id="advertenciasVentaModal" class="mensaje-advertencias">
 
   </div>
 
-  <div style="text-align: right; margin-top: 1em;">
-    <button onclick="cerrarResumenVenta()">Cerrar</button>
-    <button onclick="confirmarVenta()">Confirmar</button>
+  <div style="text-align: center;">
+    <button class="boton-accion" onclick="cerrarResumenVenta()">Cerrar</button>
+    <button class="boton-accion" onclick="confirmarVenta()">Confirmar</button>
+  </div>
   </div>
 </div>
 
@@ -130,10 +102,10 @@ function renderizarArticulosSeleccionados() {
     li.innerHTML = `
       <div>
         <strong>ID:</strong> ${a.idArticulo}<br>
-        <label>Cantidad: </label>
-        <input type="number" value="${a.cantidadArticulo}" min="1" max="999999" step="1" onchange="actualizarCantidad(${i}, this.value)">
-        <button onclick="eliminarArticulo(${i})" style="margin-left: 10px;">Quitar</button>
-        <button onclick="verificarStock(${a.idArticulo}, ${a.cantidadArticulo})" style="margin-left: 10px;">Verificar stock</button>
+        <label class="label">Cantidad: </label>
+        <input class="input" type="number" value="${a.cantidadArticulo}" min="1" max="999999" step="1" onchange="actualizarCantidad(${i}, this.value)">
+        <button onclick="eliminarArticulo(${i})" class="boton-accion" >Quitar</button>
+        <button onclick="verificarStock(${a.idArticulo}, ${a.cantidadArticulo})"  class="boton-accion">Verificar stock</button>
       </div>
       <hr style="margin: 8px 0;">
     `;

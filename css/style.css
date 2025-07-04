@@ -862,3 +862,25 @@ footer {
   font-weight: bold;
   line-height: 1.4;
 }
+.input{
+  width: 100%;
+  padding: 0.4em;
+  margin-bottom: 0;
+  margin-top: 1em;
+  border: none;
+  border-radius: 6px;
+  box-sizing: border-box;
+  background: #555;
+  box-sizing: border-box;
+  color: white;
+}
+.label{
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: 1em;
+  margin-right:1em;
+  font-weight: normal;
+  margin-bottom: -0.7em; 
+  font-size: 0.9em;
+}
