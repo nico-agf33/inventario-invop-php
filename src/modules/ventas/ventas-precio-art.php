@@ -7,65 +7,20 @@ include __DIR__ . '/../../tabs/ventas-tabs.php';
 ?>
 
 <?php if ($action === 'precio-art'): ?>
-<style>
-  .precio-grid {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 1em;
-    margin: 1em 0;
-    min-height: 70vh;
-  }
-  .articulos-lista {
-    border: 1px solid #ccc;
-    padding: 1em;
-    overflow-y: auto;
-  }
-  .precio-detalles {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    gap: 1em;
-  }
-  .detalle-caja {
-    border: 1px solid #ccc;
-    padding: 1em;
-    background-color: #f9f9f9;
-  }
-  .articulo-item {
-    padding: 6px;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    margin-bottom: 4px;
-  }
-  .articulo-item.selected {
-    background-color: #d0f5d0;
-    font-weight: bold;
-  }
-  .modal {
-    display: none;
-    position: fixed;
-    top: 20%;
-    left: 25%;
-    width: 50%;
-    background: white;
-    border: 2px solid #333;
-    padding: 1em;
-    z-index: 9999;
-  }
-</style>
 
 <h2>Gestión de Precios y Descuentos</h2>
 
 <div class="precio-grid">
   <div class="articulos-lista">
     <h4>Artículos Activos</h4>
-    <ul id="listaArticulos" style="list-style: none; padding: 0;"></ul>
+    <ul id="listaArticulos"></ul>
   </div>
 
   <div class="precio-detalles">
     <div class="detalle-caja">
       <h4 id="tituloPrecio">Precio unitario de venta actual</h4>
-      <div id="valorPrecio" style="font-size: 1.2em; margin: 1em 0;">$0.000</div>
-      <button onclick="abrirModalPrecio()">Modificar precio</button>
+      <div id="valorPrecio">$0.000</div>
+      <button class="boton-accion" onclick="abrirModalPrecio()">Modificar precio</button>
     </div>
 
     <div class="detalle-caja">
@@ -76,23 +31,27 @@ include __DIR__ . '/../../tabs/ventas-tabs.php';
 </div>
 
 <div class="modal" id="modalPrecio">
+  <div class="modal-content">
   <h4>Ingresar nuevo precio</h4>
-  <input type="number" id="inputPrecioNuevo" min="0" step="0.001" style="width: 100%; margin-bottom: 1em;">
-  <div style="text-align: right;">
-    <button onclick="cerrarModal('modalPrecio')">Cerrar</button>
-    <button onclick="guardarNuevoPrecio()">Guardar</button>
+  <input type="number" id="inputPrecioNuevo" min="0" step="0.001">
+  <div class="acciones-modal">
+    <button  class="boton-accion" onclick="cerrarModal('modalPrecio')">Cerrar</button>
+    <button  class="boton-accion" onclick="guardarNuevoPrecio()">Guardar</button>
+  </div>
   </div>
 </div>
 
 <div class="modal" id="modalDescuento">
+  <div class="modal-content">
   <h4>Modificar / Crear descuento</h4>
   <label>Cantidad vendida</label>
-  <input type="number" id="inputCantidadDesc" min="1" max="999999" style="width: 100%; margin-bottom: 0.5em;">
+  <input type="number" id="inputCantidadDesc" min="1" max="999999">
   <label>Porcentaje de descuento</label>
-  <input type="number" id="inputPorcentajeDesc" min="0.01" max="99.99" step="0.01" style="width: 100%; margin-bottom: 1em;">
+  <input type="number" id="inputPorcentajeDesc" min="0.01" max="99.99" step="0.01">
   <div style="text-align: right;">
-    <button onclick="cerrarModal('modalDescuento')">Volver</button>
-    <button onclick="guardarDescuento()">Guardar</button>
+    <button class="boton-accion" onclick="cerrarModal('modalDescuento')">Volver</button>
+    <button class="boton-accion" onclick="guardarDescuento()">Guardar</button>
+  </div>
   </div>
 </div>
 
@@ -185,8 +144,8 @@ async function cargarDescuento() {
       cont.innerHTML = `
         <p>Cantidad: <strong>${d.cantidadDesc}</strong></p>
         <p>Porcentaje: <strong>${d.porcentajeDesc}%</strong></p>
-        <button onclick="abrirModalModDesc(${d.cantidadDesc}, ${d.porcentajeDesc})">Modificar descuento</button>
-        <button onclick="eliminarDescuento()" style="margin-left: 1em;">Eliminar</button>
+        <button class="boton-accion" onclick="abrirModalModDesc(${d.cantidadDesc}, ${d.porcentajeDesc})">Modificar descuento</button>
+        <button class="boton-accion" onclick="eliminarDescuento()">Eliminar</button>
       `;
     } else {
       throw new Error(data.error || data.mensaje);
@@ -195,7 +154,7 @@ async function cargarDescuento() {
     esNuevoDescuento = true;
     cont.innerHTML = `
       <p>No hay descuento vigente</p>
-      <button onclick="abrirModalModDesc()">Crear descuento</button>
+      <button class="boton-accion" onclick="abrirModalModDesc()">Crear descuento</button>
     `;
   }
 }
@@ -204,7 +163,53 @@ function abrirModalModDesc(cant = '', porc = '') {
   esNuevoDescuento = (cant === '' || porc === '');
   document.getElementById('inputCantidadDesc').value = cant;
   document.getElementById('inputPorcentajeDesc').value = porc;
-  document.getElementById('modalDescuento').style.display = 'block';
+  const modal = document.getElementById('modalDescuento');
+  modal.style.display = 'flex'; // O 'block' según tu estructura
+  modal.style.position = 'fixed';
+  modal.style.top = '0';
+  modal.style.left = '0';
+  modal.style.width = '100%';
+  modal.style.height = '100%';
+  modal.style.backgroundColor = 'rgba(0,0,0,0.4)';
+  modal.style.justifyContent = 'center';
+  modal.style.alignItems = 'center';
+  modal.style.zIndex = '9999';
+  // ✅ Estilos al contenido interno
+  const modalContent = modal.querySelector('.modal-content');
+  modalContent.style.background = '#111';
+  modalContent.style.color = 'white';
+  modalContent.style.padding = '2em';
+  modalContent.style.borderRadius = '8px';
+  modalContent.style.maxWidth = '500px';
+  modalContent.style.width = '90%';
+  modalContent.style.boxShadow = '0 4px 12px rgba(0,0,0,0.5)';
+  modalContent.style.display = 'flex';
+  modalContent.style.flexDirection = 'column';
+  modalContent.style.gap = '2em';
+   // ✅ Estilos a los inputs
+  const inputs = modalContent.querySelectorAll('input[type="number"]');
+  inputs.forEach(input => {
+    input.style.width = '100%';
+    input.style.padding = '0.5em';
+    input.style.border = 'none';
+    input.style.borderRadius = '6px';
+    input.style.background = '#555';
+    input.style.color = 'white';
+  });
+
+  // ✅ Estilos a los botones
+  const buttons = modalContent.querySelectorAll('button');
+  buttons.forEach(btn => {
+    btn.style.backgroundColor = '#004444';
+    btn.style.color = 'white';
+    btn.style.border = 'none';
+    btn.style.borderRadius = '4px';
+    btn.style.padding = '0.5em 1em';
+    btn.style.fontWeight = 'bold';
+    btn.style.cursor = 'pointer';
+    btn.style.transition = 'background-color 0.3s ease';
+  });
+ 
 }
 
 async function guardarDescuento() {

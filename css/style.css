@@ -129,12 +129,14 @@ footer {
     margin-top: 5em;
 }
 .tabla-base {
-  width: 100%;
+  width: 90%;
+  margin: 0 auto;
   border-collapse: collapse;
   color: white;
 }
 
 .tabla-base th, .tabla-base td {
+  align-items: center;
   border: 1px solid #555;
   padding: 8px 12px;
 }
@@ -247,7 +249,14 @@ footer {
 .modal-content .boton-accion:hover {
   background-color: #006666;
 }
-
+.modal > .close {
+  position: absolute;
+  top: 0.3em;
+  right: 2.8em;
+  z-index: 9999;
+  cursor: pointer;
+  font-size: 30px;
+}
 .modal-content .close {
   color: white;
   position: absolute;
@@ -261,6 +270,18 @@ footer {
 .modal-content .close:hover {
   color: #008b8b;
 }
+.modal-content.modal-proveedores {
+  max-width: 90vw;    
+  width: 90%;
+  max-height: 90vh;   
+  overflow-y: auto;   
+}
+
+.modal-content.modal-proveedores .table-wrapper {
+  max-height: 70vh;   
+  overflow-y: auto;
+}
+
 .close{
   float: right;
   position: absolute;
@@ -319,6 +340,20 @@ footer {
 .boton-accion:hover {
   background-color: #006666;
 }
+.boton-icono {
+  background: #004444;          
+  color: #004444;             
+  border-radius: 4px;
+  padding: 4px 6px;
+  margin: 0 2px;
+  cursor: pointer;
+}
+
+.boton-icono:hover {
+  background: #006666;         
+  border-color: #888;
+}
+
 /* Flex para inputs lado a lado */
 .flex-row {
   display: flex;
@@ -452,8 +487,8 @@ footer {
 }
 
 .lista-articulos li.selected {
-  background-color: #d4edda;  
-  color: #111;
+  background-color: #005348;  
+  color: white;
 }
 
 .lista-proveedores-container {
@@ -525,9 +560,10 @@ footer {
 }
 
 .articulo-item {
+  padding: 6px;
   cursor: pointer;
   padding: 8px;
-  border: 1px solid transparent;
+  border-bottom: 1px solid;
   margin-bottom: 4px;
 }
 .articulo-item:hover {
@@ -535,8 +571,9 @@ footer {
 }
 
 .articulo-item.selected {
-  border: 2px solid green;
-  background-color: #04002b; 
+  background-color: #005255;
+  border-radius: 6px;
+  border: 1px solid transparent;
 }
 /* Flex para formularios */
 .flex-row {
@@ -733,6 +770,48 @@ footer {
   padding: 1em 0;
   text-align: center;
 }
+#detalleArticuloSeleccionado {
+  flex: 1;
+  overflow-y: visible; 
+}
+#detalleArticuloSeleccionado form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  align-items: center;
+}
+
+#detalleArticuloSeleccionado label {
+  margin-bottom: 0.1em;
+}
+
+#detalleArticuloSeleccionado input[type="number"] {
+  width: 90%;
+  padding: 0.2em;
+  background: #333;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: white;
+}
+
+#detalleArticuloSeleccionado input[type="number"]:focus {
+  outline: 1px solid #008b8b;
+}
+
+#detalleArticuloSeleccionado button {
+  background: #004444;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#detalleArticuloSeleccionado button:hover {
+  background: #006666;
+}
+
 /* ===================
    🗂️ FIN PROVEEDORES
    ===================*/
@@ -785,10 +864,10 @@ footer {
   margin-bottom: 0.5em;
 }
 .contenedor-lista-oc-x-art {
+  flex: 1;
   display: flex;
   flex-direction: row;
   gap: 1em;
-  height: calc(100vh - 250px);
   padding: 1em;
   border-radius: 6px;
   background: black;
@@ -796,6 +875,33 @@ footer {
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
   margin: 1em 0;
   overflow: hidden;
+}
+.detalle-item {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.detalle-item p {
+  margin: 0.5em 0;
+  border-bottom: 1px solid #333; /* si querés líneas */
+  padding-bottom: 0.3em;
+}
+.orden-item {
+  cursor: pointer;
+  background: transparent;
+  border-radius: 4px;
+  padding: 0.5em 1em;
+  margin-bottom: 0.5em;
+  transition: background 0.2s;
+}
+
+.orden-item:hover {
+  background: #003333; /* Hover en tema oscuro */
+}
+
+.orden-item.selected {
+  background: #007777; /* Color cuando está seleccionado */
+  color: white;
 }
 
 /* ===================
@@ -883,4 +989,83 @@ footer {
   font-weight: normal;
   margin-bottom: -0.7em; 
   font-size: 0.9em;
+}
+/* =========================
+   🗂️ PRECIOS Y DESCUENTOS
+   ========================= */
+.precio-grid {
+  display: flex;  /* Usa flex en lugar de grid para ser consistente */
+  gap: 1em;
+  height: calc(100vh - 200px);
+  padding: 1em;
+  border-radius: 6px;
+  background: black;
+  color: white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin: 1em 0;
+}
+
+.articulos-lista {
+  flex: 1;
+  border-right: 1px solid #555;
+  overflow-y: auto;
+  padding: 1em;
+}
+
+.precio-detalles {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 1em;
+}
+
+.detalle-caja {
+  flex: 1;
+  border: 1px solid #555;
+  padding: 1em;
+  background: #111;
+  border-radius: 6px;
+}
+
+.modal-precio-desc {
+  display: flex;
+  flex-direction: column;
+  background: #111;
+  border-radius: 8px;
+  padding: 1em;
+  color: white;
+  max-width: 600px;
+  width: 90%;
+}
+
+.articulo-item {
+  padding: 6px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  margin-bottom: 4px;
+  transition: background 0.3s;
+}
+
+.articulo-item:hover {
+  background: #222;
+}
+
+.articulo-item.selected {
+  background-color: #008b8b;
+  font-weight: bold;
+}
+
+.acciones-modal {
+  text-align: right;
+  margin-top: 1em;
+}
+
+#valorPrecio {
+  font-size: 1.2em;
+  margin: 1em 0;
+}
+
+#descuentoContainer p {
+  margin: 0.3em 0;
 }

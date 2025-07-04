@@ -15,8 +15,9 @@ include __DIR__ . '/../../tabs/proveedores-tabs.php';
 </div>
 
 <div id="modalCrearProveedorCompleto" class="modal">
+  <span class="close" onclick="cerrarModalCrearProveedorCompleto()">&times;</span>
   <div class="modal-content alta-proveedor">
-    <span class="close" onclick="cerrarModalCrearProveedorCompleto()">&times;</span>
+    
 
     <div class="columna columna-datos-proveedor">
       <h4>Datos del proveedor</h4>
@@ -38,12 +39,12 @@ include __DIR__ . '/../../tabs/proveedores-tabs.php';
       <ul class="articulo-item" id="listaArticulosAsignables"></ul>
     </div>
 
-<div class="columna columna-detalle-articulo">
+<div class="columna">
   <h4>Datos del artículo seleccionado</h4>
   <div id="detalleArticuloSeleccionado"></div>
 </div>
 
-    <div class="columna columna-asignados">
+    <div class="columna">
       <h4>Artículos asignados</h4>
       <div class="articulo-resumen" id="articulosAsignados"></div>
     </div>
@@ -272,11 +273,11 @@ function seleccionarArticulo(art, li) {
   li.classList.add('selected');
 
 document.getElementById('detalleArticuloSeleccionado').innerHTML = `
-  <form id="formArticuloTemp" style="display: flex; flex-direction: column; gap: 0.5em;">
+  <form id="formArticuloTemp">
     <label>Precio Unitario:</label><input type="number" id="precio_${art.idArticulo}" step="0.01" required>
     <label>Tiempo de Entrega (días):</label><input type="number" id="tiempo_${art.idArticulo}" required>
     <label>Costo de Pedido:</label><input type="number" id="costo_${art.idArticulo}" step="0.01" required>
-    <button type="button" onclick="confirmarAsignacionArticulo(${art.idArticulo})">➕ Asignar</button>
+    <button class="boton-accion" type="button" onclick="confirmarAsignacionArticulo(${art.idArticulo})">➕ Asignar</button>
   </form>
 `;
 }

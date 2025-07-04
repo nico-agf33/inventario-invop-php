@@ -17,7 +17,7 @@ include __DIR__ . '/../../tabs/ventas-tabs.php';
 
   <div class="columna">
     <h4>Artículos disponibles</h4>
-    <ul id="listaArticulosDisponibles" class="articulo-item"></ul>
+    <ul id="listaArticulosDisponibles"></ul>
   </div>
 
   <div class="columna">
@@ -74,7 +74,38 @@ async function cargarArticulosDisponibles() {
       const li = document.createElement('li');
       li.textContent = `#${art.idArticulo} - ${art.nombreArticulo}`;
       li.style.cursor = 'pointer';
+      li.style.padding = '8px'
+      li.style.marginBottom = '4px';
+      li.style.borderBottom = '1px solid #333';
+       li.style.borderRadius = '4px';
+       li.style.transition = 'background 0.3s';
+li.addEventListener('mouseover', () => {
+    if (!li.dataset.selected) {
+      li.style.backgroundColor = '#222';
+    }
+  });
+
+  li.addEventListener('mouseout', () => {
+    if (!li.dataset.selected) {
+      li.style.backgroundColor = 'transparent';
+    }
+  });
+
+  // Emular SELECTED con onclick
+  li.addEventListener('click', () => {
+    // Desmarcar todos los demás
+    document.querySelectorAll('#listaArticulosDisponibles li').forEach(el => {
+      el.dataset.selected = '';
+      el.style.backgroundColor = 'transparent';
+    });
+
+    // Marcar este como seleccionado
+    li.dataset.selected = 'true';
+    li.style.backgroundColor = '#008b8b';
+    li.style.color = 'white';
+});
       li.onclick = () => seleccionarArticulo(art);
+      
       ul.appendChild(li);
     });
   } catch (err) {
@@ -102,11 +133,11 @@ function renderizarArticulosSeleccionados() {
     li.innerHTML = `
       <div>
         <strong>ID:</strong> ${a.idArticulo}<br>
-        <label>Cantidad: </label>
-        <input id="inputCantidad-${a.idArticulo}" type="number" value="${a.cantidadArticulo}" min="1" max="999999" step="1"
+        <label class="label">Cantidad: </label>
+        <input class="input" id="inputCantidad-${a.idArticulo}" type="number" value="${a.cantidadArticulo}" min="1" max="999999" step="1"
                onchange="actualizarCantidad(${i}, this.value)">
-        <button onclick="eliminarArticulo(${i})" style="margin-left: 10px;">Quitar</button>
-        <button onclick="verificarStockDesdeInput(${a.idArticulo})" style="margin-left: 10px;">Verificar stock</button>
+        <button onclick="eliminarArticulo(${i})" class="boton-accion">Quitar</button>
+        <button onclick="verificarStockDesdeInput(${a.idArticulo})" class="boton-accion">Verificar stock</button>
       </div>
       <hr style="margin: 8px 0;">
     `;

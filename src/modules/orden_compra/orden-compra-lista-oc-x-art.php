@@ -101,11 +101,13 @@ async function seleccionarOrden(nOrdenCompra, divElement) {
 
     const contenedor = document.getElementById('detalleOrdenArticulo');
     contenedor.innerHTML = `
+    <div class="detalle-item">
       <p><strong>ID Artículo:</strong> ${detalle.idArticulo}</p>
       <p><strong>Nombre:</strong> ${detalle.nombreArticulo}</p>
       <p><strong>Cantidad:</strong> ${detalle.cantidad}</p>
       <p><strong>Precio Unitario:</strong> $${detalle.precioUnitario.toFixed(3)}</p>
       <p><strong>Subtotal:</strong> $${detalle.subTotal.toFixed(3)}</p>
+    </div>
     `;
   } catch (err) {
     console.error('Error al cargar detalle orden-artículo:', err);

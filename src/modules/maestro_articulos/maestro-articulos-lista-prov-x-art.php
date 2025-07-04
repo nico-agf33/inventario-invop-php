@@ -50,7 +50,7 @@
             async function cargarProveedores(idArticulo, elementoLi) {
                 // Resaltar artículo seleccionado
                 if (articuloSeleccionado) articuloSeleccionado.style.backgroundColor = '';
-                elementoLi.style.backgroundColor = '#d4edda'; // verde claro
+                elementoLi.style.backgroundColor =" #006658"; // verde claro
                 articuloSeleccionado = elementoLi;
 
                 infoProveedores.innerHTML = '<p>Cargando proveedores...</p>';
@@ -66,15 +66,11 @@
                     }
 
                     const table = document.createElement('table');
-                    table.border = "1";
-                    table.cellPadding = "5";
-                    table.cellSpacing = "0";
-                    table.style.width = "100%";
-                    table.style.borderCollapse = "collapse";
+                    table.classList.add('tabla-base');
 
                     const thead = document.createElement('thead');
                     thead.innerHTML = `
-                        <tr style="background-color: #eee;">
+                        <tr>
                             <th>Nombre</th>
                             <th>Email</th>
                             <th>Teléfono</th>

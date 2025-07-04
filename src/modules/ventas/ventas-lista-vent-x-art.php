@@ -42,8 +42,8 @@ async function cargarArticulosActivos() {
 
   data.forEach(art => {
     const li = document.createElement('li');
-    li.textContent = `#${art.idArticulo} - ${art.nombreArticulo}`;
     li.className = 'articulo-item';
+    li.textContent = `#${art.idArticulo} - ${art.nombreArticulo}`;
     li.onclick = () => seleccionarArticulo(art.idArticulo, li);
     lista.appendChild(li);
   });
@@ -53,7 +53,7 @@ async function seleccionarArticulo(idArticulo, liElemento) {
   articuloSeleccionado = idArticulo;
 
   document.querySelectorAll('.articulo-item').forEach(li => li.classList.remove('selected-row'));
-  liElemento.classList.add('selected-row');
+  liElemento.classList.add('selected');
 
   const res = await fetch(`http://localhost:5000/api/Ventas/art-vent/${idArticulo}`);
   const data = await res.json();

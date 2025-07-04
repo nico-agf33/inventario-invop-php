@@ -59,7 +59,7 @@
         </div>
 
         <div id="modalProveedores" class="modal">
-            <div class="modal-content">
+            <div class="modal-content modal-proveedores">
                 <span class="close" onclick="cerrarModalProveedores()">&times;</span>  
                 <h3>Proveedores del Artículo</h3>
                 <div class="table-wrapper">
@@ -305,9 +305,6 @@
                     const td = document.createElement('td');
                     td.textContent = text;
                     if (isCenter) {
-                        td.style.whiteSpace = 'nowrap';
-                        td.style.backgroundColor = '#fff';
-                        td.style.textAlign = 'center';
                     }
                     return td;
                 }
@@ -572,12 +569,12 @@
                         <td><?= htmlspecialchars($art['stockSeguridad'] ?? '') ?></td>
                         <td><?= htmlspecialchars($art['puntoPedido'] ?? '') ?></td>
                         <td><?= htmlspecialchars($art['cgi'] ?? '') ?></td>
-                        <td>
+                        <td class="acciones-col">
                             <?php $jsonArt = base64_encode(json_encode($art)); ?>
-                            <button onclick="editarArticulo(JSON.parse(atob('<?= $jsonArt ?>')))" title="Editar" style="margin-right:4px;">✏️</button>
-                            <button onclick="eliminarArticulo(<?= $art['idArticulo'] ?>)" title="Eliminar" style="margin-right:4px; color:red;">❌</button>
-                            <button onclick="verProveedores(<?= $art['idArticulo'] ?>)" title="Ver Proveedores">👤</button>
-                            <button onclick="ajusteStock(<?= $art['idArticulo'] ?>)" title="Ajustar stock">🔧</button>
+                            <button onclick="editarArticulo(JSON.parse(atob('<?= $jsonArt ?>')))" title="Editar" class="boton-icono">✏️</button>
+                            <button onclick="eliminarArticulo(<?= $art['idArticulo'] ?>)" title="Eliminar" class="boton-icono">❌</button>
+                            <button onclick="verProveedores(<?= $art['idArticulo'] ?>)" title="Ver Proveedores" class="boton-icono">👤</button>
+                            <button onclick="ajusteStock(<?= $art['idArticulo'] ?>)" title="Ajustar stock" class="boton-icono">🔧</button>
                         </td>
                     </tr>
                     <?php if ($hayAdvertencias):

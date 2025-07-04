@@ -234,11 +234,11 @@ async function cambiarEstado(nOrdenCompra) {
 
     const modal = document.createElement('div');
     modal.id = 'modalCambioEstado';
-    modal.style = 'position: fixed; top: 20%; left: 25%; width: 50%; background: white; border: 1px solid #ccc; padding: 2em; z-index: 1000; box-shadow: 0 0 10px rgba(0,0,0,0.3);';
+    modal.style = 'position: fixed; top: 20%; left: 25%; width: 50%; background:#111; border: 1px solid #ccc; padding: 1em; z-index: 1000; box-shadow: 0 0 10px rgba(0,0,0,0.3);';
 
     const cerrarBtn = document.createElement('span');
     cerrarBtn.innerHTML = '&times;';
-    cerrarBtn.style = 'float: right; cursor: pointer; font-size: 1.5em;';
+    cerrarBtn.style = 'float: right; cursor: pointer; font-size: 2em;';
     cerrarBtn.onclick = cerrarModalEstado;
 
     const titulo = document.createElement('h3');
@@ -257,7 +257,7 @@ async function cambiarEstado(nOrdenCompra) {
     if (orden.estado.toLowerCase() === 'pendiente') {
       const btnConfirmar = document.createElement('button');
       btnConfirmar.innerText = 'Cambiar estado: pendiente ⟶ enviada';
-      btnConfirmar.style = 'background-color: #b2ebf2; color: black; font-weight: bold; padding: 0.5em 1em; border: none; cursor: pointer;';
+      btnConfirmar.style = 'background-color:rgb(0, 78, 88); color: white; font-weight: bold; padding: 0.5em 1em; border: none; cursor: pointer;';
       btnConfirmar.onclick = async () => {
         try {
           const res = await fetch(`http://localhost:5000/OrdenCompra/confirmar-orden/${nOrdenCompra}`, { method: 'POST' });
@@ -273,7 +273,7 @@ async function cambiarEstado(nOrdenCompra) {
 
       const btnCancelar = document.createElement('button');
       btnCancelar.innerText = 'Cancelar orden de compra';
-      btnCancelar.style = 'background-color: orange; font-weight: bold; padding: 0.5em 1em; border: none; cursor: pointer;';
+      btnCancelar.style = 'background-color: red; color: white; font-weight: bold; padding: 0.5em 1em; border: none; cursor: pointer;';
       btnCancelar.onclick = async () => {
         if (!confirm("¿Está seguro que desea cancelar esta orden de compra?")) return;
         try {
@@ -291,7 +291,7 @@ async function cambiarEstado(nOrdenCompra) {
     } else if (orden.estado.toLowerCase() === 'enviada') {
       const btnRegistrar = document.createElement('button');
       btnRegistrar.innerText = 'Cambiar estado: enviada ⟶ archivada (registrar entrada de artículos)';
-      btnRegistrar.style = 'background-color: #b2ebf2; color: black; font-weight: bold; padding: 0.5em 1em; border: none; cursor: pointer;';
+      btnRegistrar.style = 'background-color:rgb(0, 107, 27); color: white; font-weight: bold; padding: 0.5em 1em; border: none; cursor: pointer;';
       btnRegistrar.onclick = async () => {
         try {
           const res = await fetch(`http://localhost:5000/OrdenCompra/registrar-entrada/${nOrdenCompra}`, { method: 'POST' });

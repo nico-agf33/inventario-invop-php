@@ -62,6 +62,7 @@
                 }
 
                 const table = document.createElement('table');
+                table.classList.add('tabla-base');
                 table.border = "1";
                 table.cellPadding = "5";
                 table.cellSpacing = "0";
@@ -70,7 +71,7 @@
 
                 const thead = document.createElement('thead');
                 thead.innerHTML = `
-                    <tr style="background-color: #eee;">
+                    <tr>
                         <th>ID</th>
                         <th>Nombre</th>
                         <th>Acción</th>

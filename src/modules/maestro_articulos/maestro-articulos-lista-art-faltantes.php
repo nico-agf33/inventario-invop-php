@@ -28,15 +28,12 @@
                 }
 
                 const table = document.createElement('table');
-                table.border = "1";
-                table.cellPadding = "5";
-                table.cellSpacing = "0";
-                table.style.width = "100%";
-                table.style.borderCollapse = "collapse";
+                table.classList.add('tabla-base');
+                table.style.margin = '0 auto';
 
                 const thead = document.createElement('thead');
                 thead.innerHTML = `
-                    <tr style="background-color: #eee;">
+                    <tr">
                         <th>ID Artículo</th>
                         <th>Nombre</th>
                         <th>Stock Actual</th>
