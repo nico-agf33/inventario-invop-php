@@ -182,6 +182,7 @@ footer {
 .modal-content {
   position: relative;
   display: flex;
+  margin:2em;
   flex-direction: column;
     background: #111;
     color: white;
