@@ -198,11 +198,15 @@ footer {
 .modal-content h3 {
   margin-top: 2em;
   margin-bottom: 0.5em;
+  margin-left: 1em;
+  margin-right:1em;
   font-size: 1.5em;
 }
 .modal-content label {
   display: block;
   margin-bottom: 0;
+  margin-left: 1em;
+  margin-right:1em;
   font-weight: normal;
   margin-bottom: -1.3em; 
   font-size: 0.9em;
